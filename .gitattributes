@@ -1,0 +1,8 @@
+* text=auto, eol=lf
+
+# Text files
+.gitignore
+.gitattributes
+
+# Binary files
+.sav
