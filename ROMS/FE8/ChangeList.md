@@ -7,6 +7,15 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 
 ## Classes
 
+- Sacaen Lord & Blade Lord
+  - Added from Fire Emblem 7. I really like Lyn's animations.
+  - Since Fire Emblem save game files can only load class up to `0x7F` (`0b1111111`, 7 bits), FE8
+    already have 127 classes. Thus, two civilian classes (`0x71` and `0x72`) have to be replaced.
+    If any civilians use the Sacaen Lord sprite, this is the reason.
+  - Note that the Civilian base stats have NOT been changed. To compensate, Lyn have higher
+    base stats than usual in her unique character base stats.
+  - Lyn will join at the beginning of Chapter 3. She can be chosen as a unit starting from
+    Chapter 4's preparation screen.
 - Ephraim Great Lord
   - Max STR/MAG: 27 → 28
   - Max SKL: 26 → 28
@@ -76,8 +85,10 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 ## Promotions
 
 - Eirika can now choose to promote to Ranger in addition to her Great Lord class
+  - Add Eirika's palette (as much as I could) to Ranger
   - **EXPLANATION:** Nothing here, just for fun and giggles. I have always liked it when main
     Lords are in a class that isn't unique to them.
 - Ephraim can now choose to promote to Wight in addition to her Great Lord class
+  - Add Ephraim's palette (as much as I could) to Wight
   - **EXPLANATION:** Again, fun and giggles. Wight has +1 Max SPD and the ability to wield swords, but
     they have -1 MOV since they aren't mounted. Your choice!

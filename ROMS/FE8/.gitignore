@@ -1,8 +1,9 @@
 # Ignore all
 *
 
-# Except .sav files
+# Except these files
 !.gitignore
 !.gitattributes
 !*.sav
-!saves/*.sav
+!*.md
+!saves/
