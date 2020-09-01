@@ -36,6 +36,11 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 - Great Knight
   - Max SKL: (M) 24 → 25
   - **EXPLANATION:** Making sure the SUM of Max stats is the same as the (F) equivalent.
+- Hero
+  - Max SPD: (F) 26 → 27
+  - Max RES: (F) 24 → 23
+  - **EXPLANATION:** Shifting around some max stats. Moved 1 stat from RES to SPD for
+  female Heroes.
 - Mage Knight
   - Max DEF: (M) 24 → 25
   - Max RES: (M) 25 → 26
