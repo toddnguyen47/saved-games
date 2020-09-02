@@ -5,6 +5,24 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 
 # Change List
 
+## Characters
+
+- Lyn
+  | | LV | HP | STR | SKL | SPD | DEF | RES | LUK |
+  |---|---|---|---|---|---|---|---|---|---|---|
+  Base Stats | 3 | 6 | 2 | 10 | 11 | 2 | 1 | 6
+  Growth Rates | | 70 | 40 | 60 | 60 | 20 | 30 | 55
+  - Similar base stats and same growth rates as Fire Emblem 7
+- Karla
+  | | LV | HP | STR | SKL | SPD | DEF | RES | LUK |
+  |---|---|---|---|---|---|---|---|---|---|---|
+  Base Stats | 4 | 3 | 3 | 2 | 1 | 2 | 0 | 5
+  Growth Rates | | 85 | 55 | 40 | 50 | 30 | 15 | 35
+  - Balanced base stats of roughly the same STR, SKL, and SPD
+  - Similar growth rates to Raven from FE7. I want Karla to be a female Mercenary -> Hero,
+    and I imported some excellent Female Mercenary animation by Maiser6 and Serragirl, and
+    Female Hero animation by Flasuban and Nuramon.
+
 ## Classes
 
 - Sacaen Lord & Blade Lord
@@ -40,7 +58,7 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
   - Max SPD: (F) 26 → 27
   - Max RES: (F) 24 → 23
   - **EXPLANATION:** Shifting around some max stats. Moved 1 stat from RES to SPD for
-  female Heroes.
+    female Heroes.
 - Mage Knight
   - Max DEF: (M) 24 → 25
   - Max RES: (M) 25 → 26
