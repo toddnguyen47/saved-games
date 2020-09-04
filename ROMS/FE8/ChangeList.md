@@ -17,7 +17,7 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
   | | LV | HP | STR | SKL | SPD | DEF | RES | LUK |
   |---|---|---|---|---|---|---|---|---|---|---|
   Base Stats | 4 | 3 | 3 | 2 | 1 | 2 | 0 | 5
-  Growth Rates | | 85 | 55 | 40 | 50 | 30 | 15 | 35
+  Growth Rates | | 85 | 55 | 40 | 45 | 30 | 15 | 35
   - Balanced base stats of roughly the same STR, SKL, and SPD
   - Similar growth rates to Raven from FE7. I want Karla to be a female Mercenary -> Hero,
     and I imported some excellent Female Mercenary animation by Maiser6 and Serragirl, and
