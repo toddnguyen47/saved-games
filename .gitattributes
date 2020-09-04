@@ -5,4 +5,5 @@
 .gitattributes
 
 # Binary files
-.sav
+*.sav binary
+*.7z binary

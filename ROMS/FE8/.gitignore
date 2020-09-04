@@ -4,6 +4,6 @@
 # Except these files
 !.gitignore
 !.gitattributes
-!*.sav
+!*.7z
 !*.md
 !saves/
