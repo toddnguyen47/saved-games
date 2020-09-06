@@ -115,3 +115,16 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
   - Add Ephraim's palette (as much as I could) to Wight
   - **EXPLANATION:** Again, fun and giggles. Wight has +1 Max SPD and the ability to wield swords, but
     they have -1 MOV since they aren't mounted. Your choice!
+
+# Event Pointers
+
+- Ch. 16 event, giving both Sieglinde and Sigran:
+  - `0x9F6A8C`, size 44 (`0x2C`)
+
+# Credits
+
+- [FEBuilder](https://duckduckgo.com/?t=ffab&q=febuilder&ia=images)
+- Female Mercenary: [\[T1\]\[swd\]\[Mercenary\](Tunic)\[F\]{Maiser6, Serragirl}](https://drive.google.com/drive/folders/1GB9IvafIpI4upH3iQohRS2HDFWzizxYu)
+- Female Hero: [\[T2\]\[SWD\]\[Hero\](Armored +Pants)\[F\]{Nuramon}](https://drive.google.com/drive/folders/1w-SSEHt1a1t92TySyD-kck4zZuYNXbr3)
+- [Donbettyr Spell Animation](https://drive.google.com/drive/u/1/folders/1vbL1HNNbfBp4Y3U216Er6LpK-flUGUSm)
+- Siegran animation: [\[Anima\](Super Thunderstorm){SHYUTERz}](https://drive.google.com/drive/u/1/folders/1_O-fBWeHbj0mn9kBNU9wKx3YeU-qLGxU)
