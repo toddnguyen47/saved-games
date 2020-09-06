@@ -7,3 +7,7 @@
 # Binary files
 *.sav binary
 *.7z binary
+*.png binary
+*.jpeg binary
+*.jpg binary
+*.pdf binary

@@ -108,10 +108,10 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 
 ## Promotions
 
-- Eirika can now choose to promote to Ranger in addition to her Great Lord class
-  - Add Eirika's palette (as much as I could) to Ranger
-  - **EXPLANATION:** Nothing here, just for fun and giggles. I have always liked it when main
-    Lords are in a class that isn't unique to them.
+- Eirika is now a Mage! Her Lord class can use Anima and Dark. Her promoted class, Matriarch, can
+  use Light and Staff. Essentially, her Matriarch class can use all 4 "magic" ranks!
+  - Her max stats in Matriarch is the same as her previous Great Lord class.
+  - Her seconadry promotion branch is a Mage Knight, if you want her to have more mobility
 - Ephraim can now choose to promote to Wight in addition to her Great Lord class
   - Add Ephraim's palette (as much as I could) to Wight
   - **EXPLANATION:** Again, fun and giggles. Wight has +1 Max SPD and the ability to wield swords, but

@@ -7,3 +7,6 @@
 !*.7z
 !*.md
 !saves/
+!saves/*
+!palettes/
+!palettes/*
