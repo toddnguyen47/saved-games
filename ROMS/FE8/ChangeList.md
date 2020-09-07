@@ -141,3 +141,4 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 - [Matriach by MrNight and DerTheVaporeon](https://drive.google.com/drive/u/1/folders/1cWUqc0niNVwIduMgblsngb_e6JHi5VtN)
 - [Donbettyr Spell Animation](https://drive.google.com/drive/u/1/folders/1vbL1HNNbfBp4Y3U216Er6LpK-flUGUSm)
 - Siegran animation: [\[Anima\](Super Thunderstorm){SHYUTERz}](https://drive.google.com/drive/u/1/folders/1_O-fBWeHbj0mn9kBNU9wKx3YeU-qLGxU)
+- [Aqua by Alusq](https://drive.google.com/drive/u/1/folders/1h5s8EbtNtQs6ucJclT4SuvGTWc5mGazC)
