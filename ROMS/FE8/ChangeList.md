@@ -133,12 +133,29 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 
 # Credits
 
+## Tools
+
 - [FEBuilder](https://duckduckgo.com/?t=ffab&q=febuilder&ia=images)
+- [FERecolor](https://forums.serenesforest.net/index.php?/topic/26748-fe-recolor/)
+- [Usenti](http://www.coranac.com/projects/usenti/)
+
+## Map Sprites
+
+[Magi Sprite Link](https://drive.google.com/drive/u/1/folders/1bqjMQRUfITaB0rh2uG2JcxtSXYbltkxY)
+
+- Saint(F) Moving and Standing by Melia
+- Sage (F) Limstella Moving and standing by FE7if
+
+## Class Animations
+
 - Female Mercenary: [\[T1\]\[swd\]\[Mercenary\](Tunic)\[F\]{Maiser6, Serragirl}](https://drive.google.com/drive/folders/1GB9IvafIpI4upH3iQohRS2HDFWzizxYu)
 - Female Hero: [\[T2\]\[SWD\]\[Hero\](Armored +Pants)\[F\]{Nuramon}](https://drive.google.com/drive/folders/1w-SSEHt1a1t92TySyD-kck4zZuYNXbr3)
 - Male Hero: [Nuramon Armored Pants](https://drive.google.com/drive/u/1/folders/1A_UsndWdmdrQWW4x35nGS1Nm42KjxMIa)
 - Eirika Lord animation: [Limstella Alt by Zoisite and Greentea](https://drive.google.com/drive/u/1/folders/1W3AX6oce6GvYlVfYKkpMFzRAJ_o_jDPe)
 - [Matriach by MrNight and DerTheVaporeon](https://drive.google.com/drive/u/1/folders/1cWUqc0niNVwIduMgblsngb_e6JHi5VtN)
+
+## Spell Animations
+
 - [Donbettyr Spell Animation](https://drive.google.com/drive/u/1/folders/1vbL1HNNbfBp4Y3U216Er6LpK-flUGUSm)
 - Siegran animation: [\[Anima\](Super Thunderstorm){SHYUTERz}](https://drive.google.com/drive/u/1/folders/1_O-fBWeHbj0mn9kBNU9wKx3YeU-qLGxU)
 - [Aqua by Alusq](https://drive.google.com/drive/u/1/folders/1h5s8EbtNtQs6ucJclT4SuvGTWc5mGazC)
