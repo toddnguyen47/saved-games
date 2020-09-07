@@ -122,10 +122,22 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 - Ch. 16 event, giving both Sieglinde and Sigran:
   - `0x9F6A8C`, size 44 (`0x2C`)
 
+# Old Palettes
+
+- Gerik's old Hero Palette: `5553FF7FFF6B1F4B2E1DB62BB11E0C0A9877F36E4E5AD751B1406A28372EA514`
+- Caellach's old Hero Palette: `5553FF7FFF6B1F4B2E1DF7317325EF189877F36E4E5AD161AB506438372EA514`
+- Ross's old Hero Palette: `5553FF7FFF6B1F4B2E1DB55AEE494A3D9877F36E4E5A0D77C969E640372EA514`
+- Garcia's old Hero Palette: `5553FF7FFF6B1F4B2E1DB55A0F4E6B419877F36E4E5AAD562659C64C372EA514`
+- Karla's Swordmaster Palette: `5553FF7FFF4FFC2E9125B552CE354A21767F6F5ECA49DE7BD877125F0621A514`
+- Eirika's old Lord Palette: `5553FF7FFF6B1F4B182A2E19B37F897A625DFF1B9E1A94011C0176086F0CA514`
+
 # Credits
 
 - [FEBuilder](https://duckduckgo.com/?t=ffab&q=febuilder&ia=images)
 - Female Mercenary: [\[T1\]\[swd\]\[Mercenary\](Tunic)\[F\]{Maiser6, Serragirl}](https://drive.google.com/drive/folders/1GB9IvafIpI4upH3iQohRS2HDFWzizxYu)
 - Female Hero: [\[T2\]\[SWD\]\[Hero\](Armored +Pants)\[F\]{Nuramon}](https://drive.google.com/drive/folders/1w-SSEHt1a1t92TySyD-kck4zZuYNXbr3)
+- Male Hero: [Nuramon Armored Pants](https://drive.google.com/drive/u/1/folders/1A_UsndWdmdrQWW4x35nGS1Nm42KjxMIa)
+- Eirika Lord animation: [Limstella Alt by Zoisite and Greentea](https://drive.google.com/drive/u/1/folders/1W3AX6oce6GvYlVfYKkpMFzRAJ_o_jDPe)
+- [Matriach by MrNight and DerTheVaporeon](https://drive.google.com/drive/u/1/folders/1cWUqc0niNVwIduMgblsngb_e6JHi5VtN)
 - [Donbettyr Spell Animation](https://drive.google.com/drive/u/1/folders/1vbL1HNNbfBp4Y3U216Er6LpK-flUGUSm)
 - Siegran animation: [\[Anima\](Super Thunderstorm){SHYUTERz}](https://drive.google.com/drive/u/1/folders/1_O-fBWeHbj0mn9kBNU9wKx3YeU-qLGxU)
