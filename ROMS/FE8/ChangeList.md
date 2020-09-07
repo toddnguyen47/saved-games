@@ -70,7 +70,7 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
   - **EXPLANATION:** Giving Myrhh a monster weapon so she can be of some use in your party.
 - Paladin
   - Max SKL: (M) 26 → 27, (F) 27 → 28
-  - Able to use Axes.
+  - Able to use Axes and import axe animations.
   - **EXPLANATION:** Unpopular opinion, but I think the Paladin is outclassed by the Great Knight /
     General in this game. Perhaps it's because I play the game slowly that I think so... Anyhow, I made
     sure that the Paladin's Max SKL is at least equal to the General's Max SKL. Also, Paladins will
@@ -87,6 +87,9 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
     she can use Shamshir so I thought, why not. In FE7 Rangers and Myrmidons both come from Sacae
     anyway (go Lyn!!!). Honestly Killing Edge is a better Shamshir anyway, and any sword classes
     can use Killing Edge so, this isn't game breaking or anything.
+- Shaman & Druids
+  - Imported Female Shaman & Druids standing map, moving map, and battle animations
+  - On all maps, changed some Male classes to Female classes, including Shamans / Druids / Paladins, etc.
 - Sniper
   - Gains +15% Crit skill.
   - **EXPLANATION:** Face it, Ranger beats Sniper in every single sense of the word. Giving the
@@ -145,6 +148,8 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 
 - Saint(F) Moving and Standing by Melia
 - Sage (F) Limstella Moving and standing by FE7if
+- Shaman (F) by IS
+- Druid (F) by IS
 
 ## Class Animations
 
