@@ -5,6 +5,15 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 
 # Change List
 
+## Chapter Changes
+
+- Chapter 5:
+  - Can deploy 9 → 11 characters
+  - Add 3 extra enemies (2 Fighters, 1 Soldier)
+  - The Brigand will spawn on turn 6 → 7 and turn 8 → 9
+    - Delay a turn so players can deal with the 3 extra enemies a bit easier. This way users can
+      also have an additonal turn to save the northwest village.
+
 ## Characters
 
 |          Lyn |  LV |  HP | STR | SKL | SPD | DEF | RES | LUK |
