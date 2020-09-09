@@ -48,6 +48,7 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
   - Max STR/MAG: 27 → 28
   - Max SKL: 26 → 28
   - Max SPD: 24 → 27
+  - Can now use Swords
   - **EXPLANATION:** Ephraim has insane Growth rates, sporting 55/55/45 in STR/SKL/SPD, respectively.
     His class does NOT do his growth rates justice. On average (courtery of [serenesforest](https://serenesforest.net/the-sacred-stones/characters/average-stats/ephraim/) ), Ephraim will max out his STR at 20/16,
     his SKL at 20/11, and his SPD at 20/10. That's a little bit sad, in my opinion. Thus, I increased
@@ -167,6 +168,7 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 - Male Hero: [Nuramon Armored Pants](https://drive.google.com/drive/u/1/folders/1A_UsndWdmdrQWW4x35nGS1Nm42KjxMIa)
 - Eirika Lord animation: [Limstella Alt by Zoisite and Greentea](https://drive.google.com/drive/u/1/folders/1W3AX6oce6GvYlVfYKkpMFzRAJ_o_jDPe)
 - [Matriach by MrNight and DerTheVaporeon](https://drive.google.com/drive/u/1/folders/1cWUqc0niNVwIduMgblsngb_e6JHi5VtN)
+- [Ephraim Sword Animation by eCut and Skitty](https://drive.google.com/drive/folders/1WiTQmM-DZRIMtesJTwazSgL4TU6WhqWJ)
 
 ## Spell Animations
 
