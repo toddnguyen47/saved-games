@@ -119,6 +119,26 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
   - Max SKL: (M) 26 → 27
   - **EXPLANATION:** Making sure the SUM of Max stats is the same as the (F) equivalent.
 
+## Items
+
+- Light spells cost reduced
+  - **EXPLANATION:** In my opinion, I think Light spells are massively overshadowed by the Anima
+    spells, and yet they are more expensive. I simply increased the usage per buy and reduced
+    the cost per use a bit to even out the playing field a bit. I also increased their
+    critical rate by 5 so they stand out from Anima a bit more.
+  - Lightning:
+    - Uses: 35 → 40
+    - Price per use: 18 → 16 (Fire's is 14)
+    - Critical: 5 → 10
+  - Shine:
+    - Uses: 30 → 35
+    - Price per use: 30 → 24 (Thunder's is 20)
+    - Critical: 8 → 13
+  - Divine
+    - Uses: 25 → 30
+    - Price per use: 100 → 50 (Elfire's is 40... why?!?)
+    - Critical: 10 → 15
+
 ## Promotions
 
 - Eirika is now a Mage! Her Lord class can use Anima and Dark. Her promoted class, Matriarch, can
