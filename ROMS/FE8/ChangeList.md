@@ -138,6 +138,21 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
     - Uses: 25 → 30
     - Price per use: 100 → 50 (Elfire's is 40... why?!?)
     - Critical: 10 → 15
+- Add a Fire Staff into the game
+  - Unbreakable
+  - Pow 2 / Hit 90 / Wt 4 / Crit 0 / Range 1-2
+  - **EXPLANATION:** Add an unbreakable staff that does a bit of damage so you can train your
+    clerics / priests a bit quicker. The Fire Staff will be available as an equipped staff on
+    Moulder in Chapter 2 - The Protected.
+  - Because of this, the Cleric and Priest animations had to be adjusted a little. In the following
+    5 modes, the code `C06` had to be added to begin the opponent's turn, otherwise the game will
+    freeze. `C06` usually precedes `C0D`. Interestingly enough, the Troubadour class already had
+    code `C06` in the 5 modes mentioned below.
+    - Mode 1: Melee Animation
+    - Mode 3: Melee Critical Animation
+    - Mode 5: Ranged Animation
+    - Mode 6: Ranged Critical Animation
+    - Mode 12: Attack Missed Animation
 
 ## Promotions
 
@@ -199,5 +214,6 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 
 # Weapon Icons
 
-- [Zane - icon_058](https://drive.google.com/drive/folders/1gm0BqJ_XqmQT02Np2dUmiChj2qG4VRUp)
+- [Ereshkiga Weapon Pack](https://drive.google.com/drive/u/1/folders/1mhRdpBcAgq8zPKar8zDr_MaVFsPOxSH5)
 - [ThunderMage's icons](https://drive.google.com/drive/folders/1MkJ6z0jNftSSeufufBOIphG5GSNA4uLd)
+- [Zane - icon_058](https://drive.google.com/drive/folders/1gm0BqJ_XqmQT02Np2dUmiChj2qG4VRUp)

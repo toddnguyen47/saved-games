@@ -1,6 +1,7 @@
 import os
 import heapq
 
+
 class SortFiles:
     def __init__(self):
         self._dir = "Z:/Games/ZxGames/GBA_Games/ROMS/Fire-Emblem/FEUniverse/FEUniverse/Battle Animations/7. Spells"
@@ -23,7 +24,7 @@ class SortFiles:
                 if entry2.is_file() and entry2.name.endswith(".png"):
                     count += 1
         return count
-     
+
     def _iterate_heap(self):
         while self._heap:
             val = heapq.heappop(self._heap)

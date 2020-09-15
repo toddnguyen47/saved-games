@@ -5,9 +5,11 @@
 .gitattributes
 
 # Binary files
-*.sav binary
 *.7z binary
-*.png binary
 *.jpeg binary
 *.jpg binary
+*.pal binary
 *.pdf binary
+*.png binary
+*.sav binary
+
