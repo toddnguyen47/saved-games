@@ -153,6 +153,8 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
     - Mode 5: Ranged Animation
     - Mode 6: Ranged Critical Animation
     - Mode 12: Attack Missed Animation
+  - I also added Critical animations for Troubadours, Clerics, and Priests. I'm too lazy to add
+    Staff critical animations for classes like Druids and Sages. Maybe in the future!
 
 ## Promotions
 

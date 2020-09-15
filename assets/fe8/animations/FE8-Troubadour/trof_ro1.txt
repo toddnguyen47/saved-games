@@ -32,7 +32,24 @@ C0D                               #End of dodge animation. preceeded by 0x06
 /// - Mode 3               #Melee Critical Animation
 C03                               #Start attack animation; need 07 right after this.
 C07                               #Start attack animation; need 03 right before this.
-1 p- trof_ro1_000.png
+10 p- trof_ro1_000.png
+10 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
 C1C                               #Play light horse stepping SFE; pitch decreases
 4 p- trof_ro1_001.png
 4 p- trof_ro1_002.png
@@ -84,7 +101,24 @@ C0D                               #End of dodge animation. preceeded by 0x06
 /// - Mode 6               #Ranged Critical Animation
 C03                               #Start attack animation; need 07 right after this.
 C07                               #Start attack animation; need 03 right before this.
-1 p- trof_ro1_000.png
+10 p- trof_ro1_000.png
+10 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
+2 p- trof_ro1_000.png
+2 p- trof_ro1_015.png
 C1C                               #Play light horse stepping SFE; pitch decreases
 4 p- trof_ro1_001.png
 4 p- trof_ro1_002.png
