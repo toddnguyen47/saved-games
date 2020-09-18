@@ -6,6 +6,7 @@
 !.gitattributes
 !*.7z
 !*.md
+!comment_.txt
 !saves/
 !saves/*
 !palettes/

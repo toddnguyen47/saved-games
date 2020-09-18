@@ -1,0 +1,8 @@
+010F9A44	Donbettyr
+010F9A58	Super Thunderstorm
+010F9A6C	Aqua Ranged
+010F9A80	Ground Dasher Ranged
+010F9A94	Ground Dasher Melee
+010F9AA8	Aqua Melee
+010F9ABC	Black Lightning Melee
+010F9AD0	Black Lightning Ranged
