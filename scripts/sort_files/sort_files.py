@@ -1,21 +1,26 @@
 import os
 import heapq
+import json
 
 
 class SortFiles:
     def __init__(self):
-        self._dir = "Z:/Games/ZxGames/GBA_Games/ROMS/Fire-Emblem/FEUniverse/FEUniverse/Battle Animations/7. Spells"
+        self._spell_dir = self._read_json()
         self._heap = []
 
     def execute(self):
         self._heap = []
-        with os.scandir(self._dir) as iter:
+        with os.scandir(self._spell_dir) as iter:
             for entry in iter:
                 if entry.is_dir():
                     count = self._count_png_in_dir(entry)
                     heapq.heappush(self._heap, (count, entry.name))
 
         self._iterate_heap()
+
+    ###########################################################################
+    # PRIVATE FUNCTIONS
+    ###########################################################################
 
     def _count_png_in_dir(self, entry: os.DirEntry):
         count = 0
@@ -29,6 +34,11 @@ class SortFiles:
         while self._heap:
             val = heapq.heappop(self._heap)
             print("{}: {}".format(val[0], val[1]))
+
+    def _read_json(self):
+        with open("config.json", "r") as file:
+            data = json.load(file)
+        return data["spellsDirectory"]
 
 
 if __name__ == "__main__":
