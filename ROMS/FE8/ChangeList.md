@@ -5,6 +5,8 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 
 # Change List
 
+- Add "\_FE8EssentialFixes.txt" made by circles and edited by Snakey1
+
 ## Chapter Changes
 
 - Chapter 5:
@@ -212,7 +214,9 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 - [Donbettyr Spell Animation](https://drive.google.com/drive/u/1/folders/1vbL1HNNbfBp4Y3U216Er6LpK-flUGUSm)
 - Siegran animation: [\[Anima\](Super Thunderstorm){SHYUTERz}](https://drive.google.com/drive/u/1/folders/1_O-fBWeHbj0mn9kBNU9wKx3YeU-qLGxU)
 - [Aqua by Alusq](https://drive.google.com/drive/u/1/folders/1h5s8EbtNtQs6ucJclT4SuvGTWc5mGazC)
+  - Made a copy of Aqua to have melee animations
 - [Ground Dasher by Bonzai & Blazer](https://drive.google.com/drive/folders/1lTCoXA9ETr0NjI3JCd_DFzjyZvqNBgKn)
+  - Made a copy of Ground Dasher to have melee animations
 
 # Weapon Icons
 
