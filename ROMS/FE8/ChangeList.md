@@ -75,7 +75,9 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 - Mage Knight
   - Max DEF: (M) 24 → 25
   - Max RES: (M) 25 → 26
-  - **EXPLANATION:** Making sure the SUM of Max stats is the same as the (F) equivalent.
+  - Max SPD: (M) 25 → 26, (F) 25 → 26
+  - **EXPLANATION:** Making sure the SUM of Max stats is the same as the (F) equivalent. Also tie
+    the Sage class for SPD max as L'Arachel gets capped out too early on.
 - Myrrh
   - When she joins in Ch 16, give her a Wretched Air.
   - Add Wretched Air animation.
@@ -107,6 +109,9 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
   - **EXPLANATION:** Face it, Ranger beats Sniper in every single sense of the word. Giving the
     Sniper +15% Crit can hopefully give this class the extra oomph it needs to balance out the
     Ranger's superior max stats and ability to use swords.
+- Valkyrie
+  - Max SPD: (M) 25 → 26, (F) 25 → 26
+  - **EXPLANATION:** Tie the Sage class for SPD max as L'Arachel gets capped out too early on.
 - Wight
   - Max STR: 24 → 28
   - Max SPD: 26 → 28
