@@ -224,10 +224,11 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 - [Ground Dasher by Bonzai & Blazer](https://drive.google.com/drive/folders/1lTCoXA9ETr0NjI3JCd_DFzjyZvqNBgKn)
   - Made a copy of Ground Dasher to have melee animations
 - [Black Lightning (Melee and Ranged) by ThunderMage](https://drive.google.com/drive/u/1/folders/11k6XpgpapN4nmTAh6iwChYvD1_TXhzHt)
--
+- [Sword Wave (sound edited) by lovemachine and Mikey Seregon](https://drive.google.com/drive/u/0/folders/11wkCucfl-zp-Dkdee7_EsQtnw8nci-5h)
 
 # Weapon Icons
 
 - [Ereshkiga Weapon Pack](https://drive.google.com/drive/u/1/folders/1mhRdpBcAgq8zPKar8zDr_MaVFsPOxSH5)
 - [ThunderMage's icons](https://drive.google.com/drive/folders/1MkJ6z0jNftSSeufufBOIphG5GSNA4uLd)
+- [Purple's Icons - Riptide icon](https://drive.google.com/drive/folders/17Il8haUQVcxWJThW8SkeTL2O1Riu-yl5)
 - [Zane - icon_058](https://drive.google.com/drive/folders/1gm0BqJ_XqmQT02Np2dUmiChj2qG4VRUp)
