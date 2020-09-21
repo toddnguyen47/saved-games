@@ -145,12 +145,13 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
     - Uses: 25 → 30
     - Price per use: 100 → 50 (Elfire's is 40... why?!?)
     - Critical: 10 → 15
-- Add a Fire Staff into the game
+- Add a ThunderStf (Thunder Staff) into the game
   - Unbreakable
   - Pow 2 / Hit 90 / Wt 4 / Crit 0 / Range 1-2
   - **EXPLANATION:** Add an unbreakable staff that does a bit of damage so you can train your
-    clerics / priests a bit quicker. The Fire Staff will be available as an equipped staff on
+    clerics / priests a bit quicker. The ThunderStf will be available as an equipped staff on
     Moulder in Chapter 2 - The Protected.
+  - ThunderStf will have [Black Lightning](https://drive.google.com/drive/u/1/folders/11k6XpgpapN4nmTAh6iwChYvD1_TXhzHt)'s animation.
   - Because of this, the Cleric and Priest animations had to be adjusted a little. In the following
     5 modes, the code `C06` had to be added to begin the opponent's turn, otherwise the game will
     freeze. `C06` usually precedes `C0D`. Interestingly enough, the Troubadour class already had
