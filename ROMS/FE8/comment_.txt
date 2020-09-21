@@ -6,3 +6,4 @@
 010F9AA8	Aqua Melee
 010F9ABC	Black Lightning Melee
 010F9AD0	Black Lightning Ranged
+010F9AE4	Sword Wave
