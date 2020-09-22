@@ -13,38 +13,38 @@ C000153                               #screen stretching YY
 C02DA48                               #Sound 730 SE:Sword unsheathing
 O Edited_Sword Wave_o_000.png
 B Edited_Sword Wave_b_001.png
-1
+3
 
 O Edited_Sword Wave_o_000.png
 B Edited_Sword Wave_b_002.png
-1
+3
 
 O Edited_Sword Wave_o_000.png
 B Edited_Sword Wave_b_002.png
-1
+3
 
 O Edited_Sword Wave_o_000.png
 B Edited_Sword Wave_b_003.png
-1
+3
 
 O Edited_Sword Wave_o_000.png
 B Edited_Sword Wave_b_004.png
-1
+3
 
 C00001A                               #Required before 1F or miss termination branch
 ~                               #miss terminator
 C00001F                               #Play a hit tone (requires 1A just before)
 O Edited_Sword Wave_o_000.png
 B Edited_Sword Wave_b_005.png
-1
+3
 
 O Edited_Sword Wave_o_000.png
 B Edited_Sword Wave_b_006.png
-1
+3
 
 O Edited_Sword Wave_o_000.png
 B Edited_Sword Wave_b_007.png
-1
+3
 
 C000053                               #screen stretching YY
 /// - End of animation
