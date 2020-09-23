@@ -11,6 +11,8 @@
 #include <iostream>
 #include <iterator>
 #include <string>
+#include <sstream>
+#include <thread>
 #include <vector>
 
 class Ups

@@ -8,6 +8,7 @@ NupsCli::NupsCli(std::string gba_file_path, std::string ups_file_path)
 
 void NupsCli::execute()
 {
+  std::cout << "Patching..." << std::endl;
   this->set_output_filename();
   std::vector<uint8_t> ups_file = this->read_patch_check_valid_patch();
   std::vector<uint8_t> gba_file = this->read_gba_check_valid();
@@ -61,8 +62,9 @@ void NupsCli::output(std::vector<uint8_t> patched_gba_file)
   }
 
   new_filename_ofstream.close();
-  std::cout << "Finished patching to file: '" << this->full_output_path_ << "'" <<
-            std::endl;
+  std::cout << "Finished patching to file:" << std::endl
+            << "'" << this->full_output_path_ << "'"
+            << std::endl;
 }
 
 void NupsCli::set_output_filename()
@@ -75,7 +77,6 @@ void NupsCli::set_output_filename()
   }
 
   const std::string gba_folder = this->gba_file_path_.substr(0, index + 1);
-  std::cout << "FOLDER: " << gba_folder << std::endl;
 
   const std::string new_filename = this->gba_file_path_.substr(index + 1);
   // Find extension

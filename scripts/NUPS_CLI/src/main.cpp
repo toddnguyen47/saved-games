@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-  if (argc < 4)
+  if (argc < 2)
   {
     std::cout << "Please supply a --gba and a --input file" << std::endl;
     exit(-1);
@@ -26,6 +26,20 @@ int main(int argc, char *argv[])
       index += 1;
       ups_file_path = std::string(argv[index]);
     }
+
+    else if (0 == token.compare("--help"))
+    {
+      std::cout << "Example usage:"
+                << std::endl
+                << "NupsCli.exe --gba Clean.gba --ups patch.ups"
+                << std::endl << std::endl
+                << "You can also optionally supply an `--output filename`. The program"
+                << std::endl
+                << "will save the output patched file with that name and the .gba extension."
+                ;
+      exit(0);
+    }
+
     index += 1;
   }
 

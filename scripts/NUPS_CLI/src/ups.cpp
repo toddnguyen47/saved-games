@@ -71,7 +71,6 @@ bool Ups::is_file_valid_to_apply(std::vector<uint8_t> gba_file)
   bool fit_as_new = (this->new_file_size_ == gba_filelength)
                     && (file_crc32 && this->new_file_crc32_);
 
-  std::cout << (this->validPatch_ && (fit_as_old || fit_as_new)) << std::endl;
   return this->validPatch_ && (fit_as_old || fit_as_new);
 }
 
@@ -85,8 +84,43 @@ std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file)
 
   uint8_t *result_ptr = &result[0];
 
-  for (unsigned int i = 0; i < min_length; i++)
-    result_ptr[i] = gba_file[i];
+  auto copy_into_result = [result_ptr, gba_file]
+                          (unsigned int start_index,
+                           unsigned int end_index)
+  {
+    std::stringstream ss;
+    for (unsigned int i = start_index; i < end_index; i++)
+    {
+      if (i % 128 == 0)
+      {
+        ss.str("");
+        ss << "Bytes: " << i << "/" << end_index << "\r";
+        std::cout << ss.str();
+      }
+
+      result_ptr[i] = gba_file[i];
+    }
+  };
+
+  unsigned int halfway_index = min_length >> 1;
+
+  const int max_threads = 4;
+  std::vector<std::thread> threads;
+  unsigned int shift = max_threads >> 1;
+  for (int i = 0; i < max_threads; i++)
+  {
+    unsigned int temp_len = min_length >> shift;
+    unsigned int begin = 0 + (i * temp_len);
+    unsigned int end = begin + temp_len;
+    threads.push_back(std::thread(copy_into_result, begin, end));
+  }
+
+  for (auto &thread : threads)
+    thread.join();
+
+  std::stringstream ss;
+  ss << "Bytes: " << min_length << "/" << min_length << "\r";
+  std::cout << ss.str() << std::endl;
 
   for (size_t i = 0; i < this->changed_offset_list_.size(); i++)
   {
