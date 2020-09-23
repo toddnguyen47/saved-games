@@ -33,12 +33,13 @@ private:
   std::vector<unsigned long> changed_offset_list_;
   std::vector<std::vector<uint8_t>> xor_bytes_list_;
 
-  unsigned long decrypt(uint8_t *pointer);
+  unsigned long decrypt(uint8_t *pointer[]);
   std::vector<uint8_t> encrypt(unsigned long offset);
   std::vector<uint8_t> to_binary();
 
   /** Ref: https://stackoverflow.com/a/5585683/6323360 */
-  std::vector<uint8_t> int_to_bytes(int input);
+  std::vector<uint8_t> int_to_bytes_big_endian(int input);
+  std::vector<uint8_t> int_to_bytes_little_endian(int input);
 };
 
 #endif // SRC_UPS_H_
