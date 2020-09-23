@@ -48,13 +48,15 @@ Crc32::Crc32() : crc32_table_{0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x
 
 unsigned int Crc32::crc32_adjust(unsigned int crc32, uint8_t input)
 {
-  return ((crc32 >> 8) & 0x00ffffff) ^ this->crc32_table_[(crc32 ^ input) & 0xff];
+  return ((crc32 >> 8) & 0x00FFFFFF) ^ this->crc32_table_[(crc32 ^ input) & 0xFF];
 }
 
 unsigned int Crc32::crc32_calculate(std::vector<uint8_t> data)
 {
   unsigned int crc32 = 0xFFFFFFFF;
-  for (uint8_t d1 : data)
-    crc32 = crc32_adjust(crc32, d1);
+  for (int i = 0; i < data.size(); i++)
+  {
+    crc32 = crc32_adjust(crc32, data[i]);
+  }
   return ~crc32;
 }

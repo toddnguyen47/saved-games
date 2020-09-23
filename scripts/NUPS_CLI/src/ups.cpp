@@ -14,33 +14,38 @@ bool Ups::isValidPatch()
   // copies all data into buffer
   std::vector<uint8_t> buffer(std::istreambuf_iterator<char>(input_stream), {});
 
-  int current_ptr = 0;
+  uint8_t *ups_ptr = &buffer[0];
+  uint8_t *current_ptr = ups_ptr;
+
   std::string header;
-  while (current_ptr < 4)
+  for (int i = 0; i < 4; i++)
   {
-    header.push_back(buffer[current_ptr]);
+    header.push_back(*current_ptr);
     current_ptr += 1;
   }
 
   if (header.compare("UPS1") != 0)
     return false;
 
-  this->old_file_size_ = this->decrypt(buffer, current_ptr);
-  this->new_file_size_ = this->decrypt(buffer, current_ptr);
+  this->old_file_size_ = this->decrypt(current_ptr);
+  this->new_file_size_ = this->decrypt(current_ptr);
+
+  std::cout << "old_file_size_: " << this->old_file_size_ << std::endl;
+  std::cout << "new_file_size_: " << this->new_file_size_ << std::endl;
 
   // // Body, refactor here! TODO
   unsigned long file_position = 0;
   int end_of_file_crc_bytes = 12;
-  std::cout << "Buffer size: " << buffer.size() << std::endl;
-  while (current_ptr + 1 < buffer.size() - end_of_file_crc_bytes)
+
+  while (current_ptr - ups_ptr + 1 < buffer.size() - end_of_file_crc_bytes)
   {
-    file_position += this->decrypt(buffer, current_ptr);
+    file_position += this->decrypt(current_ptr);
     this->changed_offset_list_.push_back(file_position);
     std::vector<uint8_t> new_xor_data;
 
-    while (buffer[current_ptr] != 0)
+    while (*current_ptr != 0)
     {
-      new_xor_data.push_back(buffer[current_ptr]);
+      new_xor_data.push_back(*current_ptr);
       current_ptr += 1;
     }
     this->xor_bytes_list_.push_back(new_xor_data);
@@ -49,11 +54,12 @@ bool Ups::isValidPatch()
   }
 
   // End, CRC32
-  this->original_file_crc32_ = buffer[current_ptr];
-  this->new_file_crc32_ = buffer[current_ptr + 4];
-  this->patch_crc32_ = buffer[current_ptr + 8];
+  this->original_file_crc32_ = *(current_ptr);
+  this->new_file_crc32_ = *(current_ptr + 4);
+  this->patch_crc32_ = *(current_ptr + 8);
 
-  unsigned int calculated_crc32 = this->crc32_.crc32_calculate(this->to_binary());
+  auto binary_byte_vector = this->to_binary();
+  unsigned int calculated_crc32 = this->crc32_.crc32_calculate(binary_byte_vector);
 
   for (size_t i = buffer.size() - 1; i > buffer.size() - 5; i--)
     printf("0x%02X\n", buffer[i]);
@@ -67,20 +73,20 @@ bool Ups::isValidPatch()
 // | PRIVATE FUNCTIONS
 // ****************************************************************************
 
-unsigned long Ups::decrypt(std::vector<uint8_t> data, int index)
+unsigned long Ups::decrypt(uint8_t *pointer)
 {
   unsigned long value = 0;
   int shift = 1;
-  uint8_t x = data[index];
-  index += 1;
+  uint8_t x = *pointer;
+  pointer += 1;
   value += static_cast<unsigned long>((x & 0x7F) * shift);
 
   while ((x & 0x80) == 0)
   {
     shift <<= 7;
     value += static_cast<unsigned long>(shift);
-    x = data[index];
-    index += 1;
+    x = *pointer;
+    pointer += 1;
     value += static_cast<unsigned long>((x & 0x7F) * shift);
   }
 
@@ -139,7 +145,7 @@ std::vector<uint8_t> Ups::to_binary()
 /** Ref: https://stackoverflow.com/a/5585683/6323360 */
 std::vector<uint8_t> Ups::int_to_bytes(int input)
 {
-  std::vector<uint8_t> byte_array;
+  std::vector<uint8_t> byte_array(4, 0);
   for (int i = 0; i < 4; i++)
     byte_array[3 - i] = (input >> (i * 8));
   return byte_array;
