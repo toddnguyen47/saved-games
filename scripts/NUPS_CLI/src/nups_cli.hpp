@@ -3,8 +3,10 @@
 
 #include "ups.hpp"
 
+#include <cstdint>
 #include <iostream>
 #include <string>
+#include <vector>
 
 class NupsCli
 {
@@ -13,8 +15,17 @@ public:
   void execute();
 
 private:
+  Ups ups_;
+
   std::string gba_file_path_;
   std::string ups_file_path_;
+  std::string full_output_path_;
+
+  std::vector<uint8_t> read_patch_check_valid_patch();
+  std::vector<uint8_t> read_gba_check_valid();
+
+  void set_output_filename();
+  void output(std::vector<uint8_t> patched_gba_file);
 };
 
 #endif // SRC_NUPS_CLI_H_

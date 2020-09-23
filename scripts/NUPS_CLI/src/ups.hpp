@@ -4,6 +4,7 @@
 #include "crc32.hpp"
 #include "vector_concat.hpp"
 
+#include <algorithm>
 #include <bitset>
 #include <cstdint>
 #include <fstream>
@@ -15,14 +16,15 @@
 class Ups
 {
 public:
-  Ups(std::string file_path);
-  bool isValidPatch();
+  Ups();
+  bool is_valid_patch(std::vector<uint8_t> ups_path);
+  bool is_file_valid_to_apply(std::vector<uint8_t> gba_file);
+  std::vector<uint8_t> apply_patch(std::vector<uint8_t> gba_file);
 
 private:
   Crc32 crc32_;
   VectorConcat<unsigned char> vector_concat_;
   bool validPatch_;
-  std::string file_path_;
 
   unsigned int original_file_crc32_;
   unsigned int new_file_crc32_;

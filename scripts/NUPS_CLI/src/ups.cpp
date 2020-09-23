@@ -1,20 +1,17 @@
 #include "ups.hpp"
 
-Ups::Ups(std::string file_path) : file_path_(file_path), validPatch_(false),
-                                  old_file_size_(0), new_file_size_(0)
+Ups::Ups() :
+  validPatch_(false),
+  old_file_size_(0), new_file_size_(0)
 {
 }
 
-bool Ups::isValidPatch()
+bool Ups::is_valid_patch(std::vector<uint8_t> ups_path)
 {
   this->changed_offset_list_.clear();
   this->xor_bytes_list_.clear();
 
-  std::ifstream input_stream(this->file_path_, std::ios::binary);
-  // copies all data into buffer
-  std::vector<uint8_t> buffer(std::istreambuf_iterator<char>(input_stream), {});
-
-  uint8_t *ups_ptr = &buffer[0];
+  uint8_t *ups_ptr = &(ups_path[0]);
   uint8_t *current_ptr = ups_ptr;
 
   std::string header;
@@ -30,13 +27,10 @@ bool Ups::isValidPatch()
   this->old_file_size_ = this->decrypt(&current_ptr);
   this->new_file_size_ = this->decrypt(&current_ptr);
 
-  std::cout << "old_file_size_: " << this->old_file_size_ << std::endl;
-  std::cout << "new_file_size_: " << this->new_file_size_ << std::endl;
-
-  // // Body, refactor here! TODO
+  // Body, refactor here! TODO
   unsigned long file_position = 0;
   unsigned int end_of_file_crc_bytes = 12;
-  unsigned int end_ptr = static_cast<unsigned int>(buffer.size()) - end_of_file_crc_bytes;
+  unsigned int end_ptr = static_cast<unsigned int>(ups_path.size()) - end_of_file_crc_bytes;
 
   while (current_ptr - ups_ptr + 1 < end_ptr)
   {
@@ -60,14 +54,52 @@ bool Ups::isValidPatch()
   this->patch_crc32_ = *(reinterpret_cast<unsigned int *>(current_ptr + 8));
 
   auto binary_byte_vector = this->to_binary();
-  unsigned int calculated_crc32 = this->crc32_.crc32_calculate(binary_byte_vector);
+  unsigned int calculated_crc32 = this->crc32_.crc32_calculate(
+                                    binary_byte_vector);
 
-  for (size_t i = buffer.size() - 1; i > buffer.size() - 5; i--)
-    printf("0x%02X\n", buffer[i]);
-  std::cout << "Patch: " << this->patch_crc32_ << std::endl;
-  std::cout << "Calculated: " << calculated_crc32 << std::endl;
+  this->validPatch_ = this->patch_crc32_ == calculated_crc32;
 
   return this->validPatch_;
+}
+
+bool Ups::is_file_valid_to_apply(std::vector<uint8_t> gba_file)
+{
+  unsigned int file_crc32 = this->crc32_.crc32_calculate(gba_file);
+  unsigned long gba_filelength = static_cast<unsigned long>(gba_file.size());
+  bool fit_as_old = (this->old_file_size_ == gba_filelength)
+                    && (file_crc32 == this->original_file_crc32_);
+  bool fit_as_new = (this->new_file_size_ == gba_filelength)
+                    && (file_crc32 && this->new_file_crc32_);
+
+  std::cout << (this->validPatch_ && (fit_as_old || fit_as_new)) << std::endl;
+  return this->validPatch_ && (fit_as_old || fit_as_new);
+}
+
+std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file)
+{
+  unsigned long length = std::max<unsigned long>(static_cast<unsigned long>
+                         (gba_file.size()), this->new_file_size_);
+  std::vector<uint8_t> result(length);
+  unsigned long min_length = std::min<unsigned long>(static_cast<unsigned long>
+                             (gba_file.size()), static_cast<unsigned long>(result.size()));
+
+  uint8_t *result_ptr = &result[0];
+
+  for (unsigned int i = 0; i < min_length; i++)
+    result_ptr[i] = gba_file[i];
+
+  for (size_t i = 0; i < this->changed_offset_list_.size(); i++)
+  {
+    for (size_t xor_bytes_len = 0; xor_bytes_len < this->xor_bytes_list_[i].size();
+         xor_bytes_len++)
+    {
+      auto ulong_len = static_cast<unsigned long>(xor_bytes_len);
+      result_ptr[this->changed_offset_list_[i] + ulong_len] ^=
+        this->xor_bytes_list_[i][xor_bytes_len];
+    }
+  }
+
+  return result;
 }
 
 // ****************************************************************************
@@ -128,7 +160,8 @@ std::vector<uint8_t> Ups::to_binary()
     unsigned long relative_offset = this->changed_offset_list_[i];
     if (i != 0)
     {
-      auto temp_offset = this->changed_offset_list_[i - 1] + this->xor_bytes_list_[i - 1].size() + 1;
+      auto temp_offset = this->changed_offset_list_[i - 1]
+                         + this->xor_bytes_list_[i - 1].size() + 1;
       relative_offset -= static_cast<unsigned long>(temp_offset);
     }
 
