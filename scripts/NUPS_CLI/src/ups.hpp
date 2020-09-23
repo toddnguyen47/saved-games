@@ -20,7 +20,7 @@ public:
 
 private:
   Crc32 crc32_;
-  VectorConcat<uint8_t> vector_concat_;
+  VectorConcat<unsigned char> vector_concat_;
   bool validPatch_;
   std::string file_path_;
 

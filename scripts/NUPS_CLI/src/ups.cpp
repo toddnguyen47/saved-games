@@ -28,9 +28,10 @@ bool Ups::isValidPatch()
   this->old_file_size_ = this->decrypt(buffer, current_ptr);
   this->new_file_size_ = this->decrypt(buffer, current_ptr);
 
-  // Body, refactor here! TODO
+  // // Body, refactor here! TODO
   unsigned long file_position = 0;
   int end_of_file_crc_bytes = 12;
+  std::cout << "Buffer size: " << buffer.size() << std::endl;
   while (current_ptr + 1 < buffer.size() - end_of_file_crc_bytes)
   {
     file_position += this->decrypt(buffer, current_ptr);
@@ -43,7 +44,7 @@ bool Ups::isValidPatch()
       current_ptr += 1;
     }
     this->xor_bytes_list_.push_back(new_xor_data);
-    file_position += static_cast<unsigned long>(new_xor_data.size() + 1);
+    file_position += static_cast<unsigned long>(new_xor_data.size()) + 1;
     current_ptr += 1;
   }
 
@@ -72,15 +73,15 @@ unsigned long Ups::decrypt(std::vector<uint8_t> data, int index)
   int shift = 1;
   uint8_t x = data[index];
   index += 1;
-  value += (x & 0x7F) * shift;
+  value += static_cast<unsigned long>((x & 0x7F) * shift);
 
   while ((x & 0x80) == 0)
   {
     shift <<= 7;
-    value += shift;
+    value += static_cast<unsigned long>(shift);
     x = data[index];
     index += 1;
-    value += ((x & 0x7F) * shift);
+    value += static_cast<unsigned long>((x & 0x7F) * shift);
   }
 
   return value;
@@ -88,7 +89,7 @@ unsigned long Ups::decrypt(std::vector<uint8_t> data, int index)
 
 std::vector<uint8_t> Ups::encrypt(unsigned long offset)
 {
-  std::vector<uint8_t> bytes(8);
+  std::vector<uint8_t> bytes;
 
   unsigned long x = offset & 0x7F;
   offset >>= 7;
@@ -112,25 +113,25 @@ std::vector<uint8_t> Ups::to_binary()
   byte_vector.push_back('S');
   byte_vector.push_back('1');
 
-  this->vector_concat_.concat(byte_vector, this->encrypt(this->old_file_size_));
-  this->vector_concat_.concat(byte_vector, this->encrypt(this->new_file_size_));
+  this->vector_concat_.concat(&byte_vector, this->encrypt(this->old_file_size_));
+  this->vector_concat_.concat(&byte_vector, this->encrypt(this->new_file_size_));
 
   for (int i = 0; i < this->changed_offset_list_.size(); i++)
   {
     unsigned long relative_offset = this->changed_offset_list_[i];
     if (i != 0)
     {
-      relative_offset = static_cast<unsigned long>(
-          this->changed_offset_list_[i - 1] + this->xor_bytes_list_[i - 1].size() + 1);
+      auto temp_offset = this->changed_offset_list_[i - 1] + this->xor_bytes_list_[i - 1].size() + 1;
+      relative_offset = static_cast<unsigned long>(temp_offset);
     }
 
-    this->vector_concat_.concat(byte_vector, this->encrypt(relative_offset));
-    this->vector_concat_.concat(byte_vector, this->xor_bytes_list_[i]);
+    this->vector_concat_.concat(&byte_vector, this->encrypt(relative_offset));
+    this->vector_concat_.concat(&byte_vector, this->xor_bytes_list_[i]);
     byte_vector.push_back(0);
   }
 
-  this->vector_concat_.concat(byte_vector, this->int_to_bytes(this->original_file_crc32_));
-  this->vector_concat_.concat(byte_vector, this->int_to_bytes(new_file_crc32_));
+  this->vector_concat_.concat(&byte_vector, this->int_to_bytes(this->original_file_crc32_));
+  this->vector_concat_.concat(&byte_vector, this->int_to_bytes(new_file_crc32_));
 
   return byte_vector;
 }
@@ -138,7 +139,7 @@ std::vector<uint8_t> Ups::to_binary()
 /** Ref: https://stackoverflow.com/a/5585683/6323360 */
 std::vector<uint8_t> Ups::int_to_bytes(int input)
 {
-  std::vector<uint8_t> byte_array(4);
+  std::vector<uint8_t> byte_array;
   for (int i = 0; i < 4; i++)
     byte_array[3 - i] = (input >> (i * 8));
   return byte_array;
