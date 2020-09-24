@@ -1,4 +1,5 @@
 #include "nups_cli.hpp"
+#include <chrono>
 #include <iostream>
 
 int main(int argc, char *argv[])
@@ -44,5 +45,10 @@ int main(int argc, char *argv[])
   }
 
   NupsCli nups_cli(gba_file_path, ups_file_path);
+  auto start_time = std::chrono::high_resolution_clock::now();
   nups_cli.execute();
+  auto end_time = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>
+                  (end_time - start_time).count();
+  std::cout << "Time elapsed: " << (duration / 1000.0f) << " seconds" << std::endl;
 }

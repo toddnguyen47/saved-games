@@ -72,6 +72,8 @@ bool Ups::is_valid_patch(std::vector<uint8_t> ups_file)
 
 bool Ups::is_file_valid_to_apply(std::vector<uint8_t> gba_file)
 {
+  std::cout << "Checking if GBA file is valid" << std::endl;
+
   unsigned int file_crc32 = this->crc32_.crc32_calculate(gba_file);
   unsigned long gba_filelength = static_cast<unsigned long>(gba_file.size());
   bool fit_as_old = (this->old_file_size_ == gba_filelength)
@@ -79,6 +81,7 @@ bool Ups::is_file_valid_to_apply(std::vector<uint8_t> gba_file)
   bool fit_as_new = (this->new_file_size_ == gba_filelength)
                     && (file_crc32 && this->new_file_crc32_);
 
+  std::cout << "Finished: Checking if GBA file is valid" << std::endl;
   return this->validPatch_ && (fit_as_old || fit_as_new);
 }
 

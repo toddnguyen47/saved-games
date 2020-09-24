@@ -2,6 +2,7 @@
 #define SRC_CRC32_H_
 
 #include <cstdint>
+#include <iostream>
 #include <vector>
 
 class Crc32

@@ -8,7 +8,7 @@ template <typename T>
 class VectorConcat
 {
 public:
-  void concat(std::vector<T> *vector1, std::vector<T> vector2);
+  inline void concat(std::vector<T> *vector1, std::vector<T> vector2);
 };
 
 template <typename T>

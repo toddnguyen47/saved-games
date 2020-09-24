@@ -96,7 +96,7 @@ void NupsCli::output(std::vector<uint8_t> patched_gba_file)
 
   new_filename_ofstream.close();
   std::cout << "Finished patching to file:" << std::endl
-            << "'" << this->full_output_path_ << "'"
+            << "  '" << this->full_output_path_ << "'"
             << std::endl;
 }
 
