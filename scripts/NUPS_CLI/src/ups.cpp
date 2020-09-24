@@ -4,6 +4,7 @@ Ups::Ups() :
   validPatch_(false),
   old_file_size_(0), new_file_size_(0)
 {
+
 }
 
 bool Ups::is_valid_patch(std::vector<uint8_t> ups_file)
@@ -95,30 +96,8 @@ std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file)
 
   uint8_t *result_ptr = &result[0];
 
-  auto copy_into_result = [result_ptr, gba_file]
-                          (unsigned int start_index,
-                           unsigned int end_index)
-  {
-    for (unsigned int i = start_index; i < end_index; i++)
-    {
-      result_ptr[i] = gba_file[i];
-    }
-  };
-  unsigned int halfway_index = min_length >> 1;
-  const unsigned int max_threads = 4;
-  std::vector<std::thread> threads;
-  unsigned int shift = max_threads >> 1;
-  for (int i = 0; i < max_threads; i++)
-  {
-    unsigned int temp_len = min_length >> shift;
-    unsigned int begin = 0 + (i * temp_len);
-    unsigned int end = begin + temp_len;
-    if (i == max_threads - 1)
-      end = min_length;
-    threads.push_back(std::thread(copy_into_result, begin, end));
-  }
-  for (auto &thread : threads)
-    thread.join();
+  for (unsigned int i = 0; i < min_length; i++)
+    result_ptr[i] = gba_file[i];
 
   for (size_t i = 0; i < this->changed_offset_list_.size(); i++)
   {

@@ -4,6 +4,7 @@
 #include "ups.hpp"
 
 #include <cstdint>
+#include <future>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -22,7 +23,7 @@ private:
   std::string full_output_path_;
 
   std::vector<uint8_t> read_patch_check_valid_patch();
-  std::vector<uint8_t> read_gba_check_valid();
+  std::vector<uint8_t> read_gba_file();
 
   void set_output_filename();
   void output(std::vector<uint8_t> patched_gba_file);

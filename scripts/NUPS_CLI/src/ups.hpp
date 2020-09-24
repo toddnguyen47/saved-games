@@ -5,14 +5,12 @@
 #include "vector_concat.hpp"
 
 #include <algorithm>
-#include <bitset>
 #include <cstdint>
 #include <fstream>
 #include <iostream>
-#include <iterator>
+#include <mutex>
 #include <string>
 #include <sstream>
-#include <thread>
 #include <vector>
 
 class Ups

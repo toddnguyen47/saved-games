@@ -9,12 +9,28 @@ NupsCli::NupsCli(std::string gba_file_path, std::string ups_file_path)
 void NupsCli::execute()
 {
   std::cout << "Patching..." << std::endl;
-  this->set_output_filename();
-  std::vector<uint8_t> ups_file = this->read_patch_check_valid_patch();
-  std::vector<uint8_t> gba_file = this->read_gba_check_valid();
+  auto output_filename_future = std::async(std::launch::async,
+                                &NupsCli::set_output_filename,
+                                this);
+
+  auto future_ups = std::async(std::launch::async,
+                               &NupsCli::read_patch_check_valid_patch, this);
+  auto future_gba = std::async(std::launch::async,
+                               &NupsCli::read_gba_file, this);
+
   // Patch
+  std::vector<uint8_t> ups_file = future_ups.get();
+  std::vector<uint8_t> gba_file = future_gba.get();
+
+  if (!this->ups_.is_file_valid_to_apply(gba_file))
+  {
+    std::cerr << "GBA File does not match the Patch.";
+    exit(-1);
+  }
   std::vector<uint8_t> patched_gba_file = this->ups_.apply_patch(gba_file);
   this->output(patched_gba_file);
+
+  output_filename_future.wait();
 }
 
 // ---------------------------------------------------------
@@ -36,12 +52,13 @@ std::vector<uint8_t> NupsCli::read_patch_check_valid_patch()
     exit(-1);
   }
 
+  std::cout << "FINISHED: Reading & Checking in UPS patch file" << std::endl;
   return ups_file;
 }
 
-std::vector<uint8_t> NupsCli::read_gba_check_valid()
+std::vector<uint8_t> NupsCli::read_gba_file()
 {
-  std::cout << "Reading & Checking in GBA clean ROM" << std::endl;
+  std::cout << "Reading in GBA clean ROM" << std::endl;
 
   // Check valid file
   // Ref: http://www.cplusplus.com/doc/tutorial/files/
@@ -56,36 +73,14 @@ std::vector<uint8_t> NupsCli::read_gba_check_valid()
   gba_file_input_stream.seekg(0, std::ios::beg);
   gba_file_input_stream.read(memblock, size);
 
-  std::vector<std::thread> threads;
-  const unsigned int max_threads = 4;
-  unsigned int shift = max_threads >> 1;
-  unsigned int temp_len = static_cast<unsigned int>(size) >> shift;
-  for (unsigned int i = 0; i < max_threads; i++)
-  {
-    unsigned int begin = 0 + (i * temp_len);
-    unsigned int end = begin + temp_len;
-    if (i == max_threads - 1)
-      end = static_cast<unsigned int>(size);
-    threads.push_back(
-      std::thread([gba_file_ptr, memblock](unsigned int begin, unsigned int end)
-    {
-      for (unsigned int j = begin; j < end; j++)
-        gba_file_ptr[j] = memblock[j];
-    }, begin, end)
-    );
-  }
-
-  for (std::thread &thread : threads)
-    thread.join();
+  unsigned int begin = 0;
+  unsigned int end = static_cast<unsigned int>(size);
+  for (unsigned int j = begin; j < end; j++)
+    gba_file_ptr[j] = memblock[j];
 
   delete[] memblock;
 
-  if (!this->ups_.is_file_valid_to_apply(gba_file))
-  {
-    std::cerr << "GBA File does not match the Patch.";
-    exit(-1);
-  }
-
+  std::cout << "FINISHED: Reading in GBA clean ROM" << std::endl;
   return gba_file;
 }
 
