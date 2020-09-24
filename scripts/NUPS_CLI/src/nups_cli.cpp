@@ -17,9 +17,9 @@ void NupsCli::execute()
   this->output(patched_gba_file);
 }
 
-// ***************************************************
+// ---------------------------------------------------------
 // | PRIVATE FUNCTIONS
-// ***************************************************
+// ---------------------------------------------------------
 std::vector<uint8_t> NupsCli::read_patch_check_valid_patch()
 {
   std::cout << "Reading & Checking in UPS patch file" << std::endl;
@@ -57,13 +57,15 @@ std::vector<uint8_t> NupsCli::read_gba_check_valid()
   gba_file_input_stream.read(memblock, size);
 
   std::vector<std::thread> threads;
-  unsigned int max_threads = 4;
+  const unsigned int max_threads = 4;
   unsigned int shift = max_threads >> 1;
   unsigned int temp_len = static_cast<unsigned int>(size) >> shift;
   for (unsigned int i = 0; i < max_threads; i++)
   {
     unsigned int begin = 0 + (i * temp_len);
     unsigned int end = begin + temp_len;
+    if (i == max_threads - 1)
+      end = static_cast<unsigned int>(size);
     threads.push_back(
       std::thread([gba_file_ptr, memblock](unsigned int begin, unsigned int end)
     {
