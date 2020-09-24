@@ -6,12 +6,12 @@ Ups::Ups() :
 {
 }
 
-bool Ups::is_valid_patch(std::vector<uint8_t> ups_path)
+bool Ups::is_valid_patch(std::vector<uint8_t> ups_file)
 {
   this->changed_offset_list_.clear();
   this->xor_bytes_list_.clear();
 
-  uint8_t *ups_ptr = &(ups_path[0]);
+  uint8_t *ups_ptr = &(ups_file[0]);
   uint8_t *current_ptr = ups_ptr;
 
   std::string header;
@@ -30,14 +30,14 @@ bool Ups::is_valid_patch(std::vector<uint8_t> ups_path)
   // Body, refactor here! TODO
   unsigned long file_position = 0;
   unsigned int end_of_file_crc_bytes = 12;
-  unsigned int end_ptr = static_cast<unsigned int>(ups_path.size()) - end_of_file_crc_bytes;
+  unsigned int end_ptr = static_cast<unsigned int>(ups_file.size()) - end_of_file_crc_bytes;
 
   while (current_ptr - ups_ptr + 1 < end_ptr)
   {
     if ((current_ptr - ups_ptr + 1) % 128 == 0)
     {
       std::stringstream ss;
-      ss << (current_ptr - ups_ptr + 1) << "/" << end_ptr << "\r";
+      ss << (current_ptr - ups_ptr) << "/" << end_ptr << "\r";
       std::cout << ss.str();
     }
 

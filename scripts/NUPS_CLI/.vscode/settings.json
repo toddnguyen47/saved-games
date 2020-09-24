@@ -50,6 +50,10 @@
     "fstream": "cpp",
     "atomic": "cpp",
     "compare": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "chrono": "cpp",
+    "ratio": "cpp",
+    "sstream": "cpp",
+    "thread": "cpp"
   }
 }

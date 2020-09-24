@@ -19,7 +19,7 @@ class Ups
 {
 public:
   Ups();
-  bool is_valid_patch(std::vector<uint8_t> ups_path);
+  bool is_valid_patch(std::vector<uint8_t> ups_file);
   bool is_file_valid_to_apply(std::vector<uint8_t> gba_file);
   std::vector<uint8_t> apply_patch(std::vector<uint8_t> gba_file);
 

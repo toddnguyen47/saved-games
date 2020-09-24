@@ -1,0 +1,20 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "NupsCli: Run Program",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/test/Debug/NupsCli.exe",
+      "group": "build",
+      "args": [
+        "--gba",
+        "C:\\Users\\i1A771792\\usr\\PER\\GITH\\SavedGames\\ROMS\\FE8\\backup\\Fire-Emblem-The-Sacred-Stones-vanilla.GBA",
+        "--ups",
+        "C:\\Users\\i1A771792\\Downloads\\FE8-Rebalanced-1.0.5.ups"
+      ],
+      "problemMatcher": ["$msCompile"]
+    }
+  ]
+}

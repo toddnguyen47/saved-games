@@ -22,9 +22,13 @@ void NupsCli::execute()
 // ***************************************************
 std::vector<uint8_t> NupsCli::read_patch_check_valid_patch()
 {
+  std::cout << "Reading & Checking in UPS patch file" << std::endl;
+
   std::ifstream ups_file_input_stream(this->ups_file_path_, std::ios::binary);
   // copies all data into buffer
   std::vector<uint8_t> ups_file(std::istreambuf_iterator<char>(ups_file_input_stream), {});
+
+  ups_file_input_stream.close();
   // Check valid patch
   if (!this->ups_.is_valid_patch(ups_file))
   {
@@ -32,18 +36,20 @@ std::vector<uint8_t> NupsCli::read_patch_check_valid_patch()
     exit(-1);
   }
 
-  ups_file_input_stream.close();
   return ups_file;
 }
 
 std::vector<uint8_t> NupsCli::read_gba_check_valid()
 {
+  std::cout << "Reading & Checking in GBA clean ROM" << std::endl;
+
   // Check valid file
   // Ref: http://www.cplusplus.com/doc/tutorial/files/
+  // std::ios::ate: seek to the end of stream immediately after open
   std::ifstream gba_file_input_stream(this->gba_file_path_,
                                       std::ios::binary | std::ios::ate);
   std::streampos size = gba_file_input_stream.tellg();
-  char *memblock = new char[size];
+  char *memblock = new char[size]; // new[], so we must call delete[]!
   std::vector<uint8_t> gba_file(size);
   uint8_t *gba_file_ptr = &gba_file[0];
 
@@ -85,11 +91,8 @@ void NupsCli::output(std::vector<uint8_t> patched_gba_file)
 {
   std::cout << "Writing to a new patched file." << std::endl;
   std::ofstream new_filename_ofstream(this->full_output_path_, std::ios::binary);
-  for (uint8_t byte : patched_gba_file)
-  {
-    char *temp = reinterpret_cast<char *>(&byte);
-    new_filename_ofstream.write(temp, sizeof(uint8_t));
-  }
+  new_filename_ofstream.write(reinterpret_cast<char *>(&patched_gba_file[0]),
+                              patched_gba_file.size());
 
   new_filename_ofstream.close();
   std::cout << "Finished patching to file:" << std::endl
