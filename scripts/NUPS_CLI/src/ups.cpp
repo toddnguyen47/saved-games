@@ -34,6 +34,13 @@ bool Ups::is_valid_patch(std::vector<uint8_t> ups_path)
 
   while (current_ptr - ups_ptr + 1 < end_ptr)
   {
+    if ((current_ptr - ups_ptr + 1) % 128 == 0)
+    {
+      std::stringstream ss;
+      ss << (current_ptr - ups_ptr + 1) << "/" << end_ptr << "\r";
+      std::cout << ss.str();
+    }
+
     file_position += this->decrypt(&current_ptr);
     this->changed_offset_list_.push_back(file_position);
     std::vector<uint8_t> new_xor_data;
@@ -47,6 +54,7 @@ bool Ups::is_valid_patch(std::vector<uint8_t> ups_path)
     file_position += static_cast<unsigned long>(new_xor_data.size()) + 1;
     current_ptr += 1;
   }
+  std::cout << std::endl;
 
   // End, CRC32
   this->original_file_crc32_ = *(reinterpret_cast<unsigned int *>(current_ptr));
@@ -88,22 +96,12 @@ std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file)
                           (unsigned int start_index,
                            unsigned int end_index)
   {
-    std::stringstream ss;
     for (unsigned int i = start_index; i < end_index; i++)
     {
-      if (i % 128 == 0)
-      {
-        ss.str("");
-        ss << "Bytes: " << i << "/" << end_index << "\r";
-        std::cout << ss.str();
-      }
-
       result_ptr[i] = gba_file[i];
     }
   };
-
   unsigned int halfway_index = min_length >> 1;
-
   const int max_threads = 4;
   std::vector<std::thread> threads;
   unsigned int shift = max_threads >> 1;
@@ -114,13 +112,8 @@ std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file)
     unsigned int end = begin + temp_len;
     threads.push_back(std::thread(copy_into_result, begin, end));
   }
-
   for (auto &thread : threads)
     thread.join();
-
-  std::stringstream ss;
-  ss << "Bytes: " << min_length << "/" << min_length << "\r";
-  std::cout << ss.str() << std::endl;
 
   for (size_t i = 0; i < this->changed_offset_list_.size(); i++)
   {
@@ -131,7 +124,15 @@ std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file)
       result_ptr[this->changed_offset_list_[i] + ulong_len] ^=
         this->xor_bytes_list_[i][xor_bytes_len];
     }
+
+    if (i % 128 == 0)
+    {
+      std::stringstream ss;
+      ss << i << "/" << this->changed_offset_list_.size() << "\r";
+      std::cout << ss.str();
+    }
   }
+  std::cout << std::endl;
 
   return result;
 }

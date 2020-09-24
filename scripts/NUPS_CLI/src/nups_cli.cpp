@@ -39,22 +39,52 @@ std::vector<uint8_t> NupsCli::read_patch_check_valid_patch()
 std::vector<uint8_t> NupsCli::read_gba_check_valid()
 {
   // Check valid file
-  std::ifstream gba_file_input_stream(this->gba_file_path_, std::ios::binary);
-  // copies all data into buffer
-  std::vector<uint8_t> gba_file(std::istreambuf_iterator<char>(gba_file_input_stream), {});
+  // Ref: http://www.cplusplus.com/doc/tutorial/files/
+  std::ifstream gba_file_input_stream(this->gba_file_path_,
+                                      std::ios::binary | std::ios::ate);
+  std::streampos size = gba_file_input_stream.tellg();
+  char *memblock = new char[size];
+  std::vector<uint8_t> gba_file(size);
+  uint8_t *gba_file_ptr = &gba_file[0];
+
+  gba_file_input_stream.seekg(0, std::ios::beg);
+  gba_file_input_stream.read(memblock, size);
+
+  std::vector<std::thread> threads;
+  unsigned int max_threads = 4;
+  unsigned int shift = max_threads >> 1;
+  unsigned int temp_len = static_cast<unsigned int>(size) >> shift;
+  for (unsigned int i = 0; i < max_threads; i++)
+  {
+    unsigned int begin = 0 + (i * temp_len);
+    unsigned int end = begin + temp_len;
+    threads.push_back(
+      std::thread([gba_file_ptr, memblock](unsigned int begin, unsigned int end)
+    {
+      for (unsigned int j = begin; j < end; j++)
+        gba_file_ptr[j] = memblock[j];
+    }, begin, end)
+    );
+  }
+
+  for (std::thread &thread : threads)
+    thread.join();
+
+  delete[] memblock;
+
   if (!this->ups_.is_file_valid_to_apply(gba_file))
   {
     std::cerr << "GBA File does not match the Patch.";
     exit(-1);
   }
-  gba_file_input_stream.close();
+
   return gba_file;
 }
 
 void NupsCli::output(std::vector<uint8_t> patched_gba_file)
 {
+  std::cout << "Writing to a new patched file." << std::endl;
   std::ofstream new_filename_ofstream(this->full_output_path_, std::ios::binary);
-
   for (uint8_t byte : patched_gba_file)
   {
     char *temp = reinterpret_cast<char *>(&byte);
