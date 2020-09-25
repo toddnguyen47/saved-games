@@ -12,7 +12,8 @@
 class NupsCli
 {
 public:
-  NupsCli(std::string gba_file_path, std::string ups_file_path);
+  NupsCli(std::string gba_file_path, std::string ups_file_path,
+          std::string full_output_path);
   void execute();
 
 private:

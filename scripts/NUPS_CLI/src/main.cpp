@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
 
   std::string gba_file_path = "";
   std::string ups_file_path = "";
+  std::string output_file_path = "";
   int index = 0;
   while (index < argc)
   {
@@ -26,6 +27,12 @@ int main(int argc, char *argv[])
     {
       index += 1;
       ups_file_path = std::string(argv[index]);
+    }
+
+    else if (0 == token.compare("--output"))
+    {
+      index += 1;
+      output_file_path = std::string(argv[index]);
     }
 
     else if (0 == token.compare("--help"))
@@ -44,7 +51,7 @@ int main(int argc, char *argv[])
     index += 1;
   }
 
-  NupsCli nups_cli(gba_file_path, ups_file_path);
+  NupsCli nups_cli(gba_file_path, ups_file_path, output_file_path);
   auto start_time = std::chrono::high_resolution_clock::now();
   nups_cli.execute();
   auto end_time = std::chrono::high_resolution_clock::now();

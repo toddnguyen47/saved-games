@@ -1,8 +1,10 @@
 #include "nups_cli.hpp"
 
-NupsCli::NupsCli(std::string gba_file_path, std::string ups_file_path)
+NupsCli::NupsCli(std::string gba_file_path, std::string ups_file_path,
+                 std::string full_output_path)
   : gba_file_path_(gba_file_path),
-    ups_file_path_(ups_file_path)
+    ups_file_path_(ups_file_path),
+    full_output_path_(full_output_path)
 {
 }
 
@@ -41,8 +43,16 @@ std::vector<uint8_t> NupsCli::read_patch_check_valid_patch()
   std::cout << "Reading & Checking in UPS patch file" << std::endl;
 
   std::ifstream ups_file_input_stream(this->ups_file_path_, std::ios::binary);
+
   // copies all data into buffer
   std::vector<uint8_t> ups_file(std::istreambuf_iterator<char>(ups_file_input_stream), {});
+
+  if (ups_file.size() <= 0)
+  {
+    std::cerr << "UPS File does not exist:" << std::endl
+              << "  '" << this->ups_file_path_ << "'" << std::endl;
+    exit(-1);
+  }
 
   ups_file_input_stream.close();
   // Check valid patch
@@ -66,6 +76,14 @@ std::vector<uint8_t> NupsCli::read_gba_file()
   std::ifstream gba_file_input_stream(this->gba_file_path_,
                                       std::ios::binary | std::ios::ate);
   std::streampos size = gba_file_input_stream.tellg();
+
+  if (size <= 0)
+  {
+    std::cerr << "GBA File does not exist:" << std::endl
+              << "  '" << this->gba_file_path_ << "'" << std::endl;
+    exit(-1);
+  }
+
   char *memblock = new char[size]; // new[], so we must call delete[]!
   std::vector<uint8_t> gba_file(size);
   uint8_t *gba_file_ptr = &gba_file[0];
@@ -122,5 +140,10 @@ void NupsCli::set_output_filename()
   const std::string extension = new_filename.substr(rpos);
   new_filename_no_ext.append(extension);
 
-  this->full_output_path_ = gba_folder + new_filename_no_ext;
+  if (0 == this->full_output_path_.compare(""))
+    this->full_output_path_ = gba_folder + new_filename_no_ext;
+  else
+    this->full_output_path_ = gba_folder + this->full_output_path_ + extension;
+
+  std::cout << "OUTPUT: " << this->full_output_path_ << std::endl;
 }

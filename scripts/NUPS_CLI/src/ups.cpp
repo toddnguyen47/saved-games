@@ -35,13 +35,6 @@ bool Ups::is_valid_patch(std::vector<uint8_t> ups_file)
 
   while (current_ptr - ups_ptr + 1 < end_ptr)
   {
-    if ((current_ptr - ups_ptr + 1) % 128 == 0)
-    {
-      std::stringstream ss;
-      ss << (current_ptr - ups_ptr) << "/" << end_ptr << "\r";
-      std::cout << ss.str();
-    }
-
     file_position += this->decrypt(&current_ptr);
     this->changed_offset_list_.push_back(file_position);
     std::vector<uint8_t> new_xor_data;
@@ -55,7 +48,6 @@ bool Ups::is_valid_patch(std::vector<uint8_t> ups_file)
     file_position += static_cast<unsigned long>(new_xor_data.size()) + 1;
     current_ptr += 1;
   }
-  std::cout << std::endl;
 
   // End, CRC32
   this->original_file_crc32_ = *(reinterpret_cast<unsigned int *>(current_ptr));
@@ -108,15 +100,7 @@ std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file)
       result_ptr[this->changed_offset_list_[i] + ulong_len] ^=
         this->xor_bytes_list_[i][xor_bytes_len];
     }
-
-    if (i % 128 == 0)
-    {
-      std::stringstream ss;
-      ss << i << "/" << this->changed_offset_list_.size() << "\r";
-      std::cout << ss.str();
-    }
   }
-  std::cout << std::endl;
 
   return result;
 }
