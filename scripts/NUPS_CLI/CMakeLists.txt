@@ -7,8 +7,8 @@ if (WIN32)
   # Copy dll and exe files into the same folder
   # Ref: https://stackoverflow.com/a/55886605
   # Ref: https://stackoverflow.com/a/39807774
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test")
-  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test")
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/win32")
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/win32")
 endif()
 
 project(NupsCli 
