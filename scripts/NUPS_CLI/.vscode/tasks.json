@@ -15,6 +15,36 @@
         "C:\\Users\\i1A771792\\Downloads\\FE8-Rebalanced-1.0.5.ups"
       ],
       "problemMatcher": ["$msCompile"]
+    },
+    {
+      "label": "NupsCli: Build Release",
+      "type": "shell",
+      "command": "${workspaceFolder}/build_release.bat",
+      "group": "build",
+      "args": [],
+      "problemMatcher": []
+    },
+    {
+      "label": "NupsCli: Run Release",
+      "type": "shell",
+      "command": "${workspaceFolder}/release/test/Release/NupsCli.exe",
+      "group": "none",
+      "args": [
+        "--gba",
+        "Z:\\DocumentsAndStuff\\Downloads\\bruh\\FE8-Clean.gba",
+        "--ups",
+        "Z:\\DocumentsAndStuff\\Downloads\\bruh\\FE8-Rebalanced-1.0.5.ups",
+        "--output",
+        "FE8-patched"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "NupsCli: Build and Run Release",
+      "dependsOrder": "sequence",
+      "dependsOn": ["NupsCli: Build Release", "NupsCli: Run Release"],
+      "group": "build",
+      "problemMatcher": []
     }
   ]
 }
