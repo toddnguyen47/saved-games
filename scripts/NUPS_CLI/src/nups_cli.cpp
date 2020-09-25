@@ -94,10 +94,10 @@ std::vector<uint8_t> NupsCli::read_gba_file() {
   return gba_file;
 }
 
-void NupsCli::output(const std::vector<uint8_t> &patched_gba_file) {
+void NupsCli::output(std::vector<uint8_t> &patched_gba_file) {
   std::cout << "Writing to a new patched file." << std::endl;
   std::ofstream new_filename_ofstream(this->full_output_path_, std::ios::binary);
-  new_filename_ofstream.write(reinterpret_cast<char *>(patched_gba_file[0]),
+  new_filename_ofstream.write(reinterpret_cast<char *>(&patched_gba_file[0]),
                               patched_gba_file.size());
 
   new_filename_ofstream.close();

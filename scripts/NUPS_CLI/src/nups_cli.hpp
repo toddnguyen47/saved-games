@@ -26,7 +26,7 @@ private:
   std::vector<uint8_t> read_gba_file();
 
   void set_output_filename();
-  void output(const std::vector<uint8_t> &patched_gba_file);
+  void output(std::vector<uint8_t> &patched_gba_file);
 };
 
 #endif // SRC_NUPS_CLI_H_
