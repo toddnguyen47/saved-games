@@ -1,7 +1,7 @@
 #include "nups_cli.hpp"
 
-NupsCli::NupsCli(std::string gba_file_path, std::string ups_file_path,
-                 std::string full_output_path)
+NupsCli::NupsCli(const std::string &gba_file_path, const std::string &ups_file_path,
+                 const std::string &full_output_path)
   : gba_file_path_(gba_file_path),
     ups_file_path_(ups_file_path),
     full_output_path_(full_output_path) {
@@ -32,9 +32,9 @@ void NupsCli::execute() {
   output_filename_future.wait();
 }
 
-// ---------------------------------------------------------
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // | PRIVATE FUNCTIONS
-// ---------------------------------------------------------
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 std::vector<uint8_t> NupsCli::read_patch_check_valid_patch() {
   std::cout << "Reading & Checking in UPS patch file" << std::endl;
 
@@ -94,10 +94,10 @@ std::vector<uint8_t> NupsCli::read_gba_file() {
   return gba_file;
 }
 
-void NupsCli::output(std::vector<uint8_t> patched_gba_file) {
+void NupsCli::output(const std::vector<uint8_t> &patched_gba_file) {
   std::cout << "Writing to a new patched file." << std::endl;
   std::ofstream new_filename_ofstream(this->full_output_path_, std::ios::binary);
-  new_filename_ofstream.write(reinterpret_cast<char *>(&patched_gba_file[0]),
+  new_filename_ofstream.write(reinterpret_cast<char *>(patched_gba_file[0]),
                               patched_gba_file.size());
 
   new_filename_ofstream.close();

@@ -6,7 +6,7 @@ Ups::Ups() :
 
 }
 
-bool Ups::is_valid_patch(std::vector<uint8_t> ups_file) {
+bool Ups::is_valid_patch(std::vector<uint8_t> &ups_file) {
   this->changed_offset_list_.clear();
   this->xor_bytes_list_.clear();
 
@@ -55,7 +55,7 @@ bool Ups::is_valid_patch(std::vector<uint8_t> ups_file) {
   return this->validPatch_;
 }
 
-bool Ups::is_file_valid_to_apply(std::vector<uint8_t> gba_file) {
+bool Ups::is_file_valid_to_apply(const std::vector<uint8_t> &gba_file) {
   std::cout << "Checking if GBA file is valid" << std::endl;
 
   unsigned int file_crc32 = this->crc32_.crc32_calculate(gba_file);
@@ -69,7 +69,7 @@ bool Ups::is_file_valid_to_apply(std::vector<uint8_t> gba_file) {
   return this->validPatch_ && (fit_as_old || fit_as_new);
 }
 
-std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file) {
+std::vector<uint8_t> Ups::apply_patch(const std::vector<uint8_t> &gba_file) {
   unsigned long length = std::max<unsigned long>(static_cast<unsigned long>
                          (gba_file.size()), this->new_file_size_);
   std::vector<uint8_t> result(length);
@@ -93,9 +93,9 @@ std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file) {
   return result;
 }
 
-// ---------------------------------------------------------
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // | PRIVATE FUNCTIONS
-// ---------------------------------------------------------
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 unsigned long Ups::decrypt(uint8_t *pointer[]) {
   unsigned long value = 0;

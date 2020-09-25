@@ -11,8 +11,8 @@
 
 class NupsCli {
 public:
-  NupsCli(std::string gba_file_path, std::string ups_file_path,
-          std::string full_output_path);
+  NupsCli(const std::string &gba_file_path, const std::string &ups_file_path,
+          const std::string &full_output_path);
   void execute();
 
 private:
@@ -26,7 +26,7 @@ private:
   std::vector<uint8_t> read_gba_file();
 
   void set_output_filename();
-  void output(std::vector<uint8_t> patched_gba_file);
+  void output(const std::vector<uint8_t> &patched_gba_file);
 };
 
 #endif // SRC_NUPS_CLI_H_

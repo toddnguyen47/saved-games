@@ -16,9 +16,9 @@
 class Ups {
 public:
   Ups();
-  bool is_valid_patch(std::vector<uint8_t> ups_file);
-  bool is_file_valid_to_apply(std::vector<uint8_t> gba_file);
-  std::vector<uint8_t> apply_patch(std::vector<uint8_t> gba_file);
+  bool is_valid_patch(std::vector<uint8_t> &ups_file);
+  bool is_file_valid_to_apply(const std::vector<uint8_t> &gba_file);
+  std::vector<uint8_t> apply_patch(const std::vector<uint8_t> &gba_file);
 
 private:
   Crc32 crc32_;
@@ -33,9 +33,9 @@ private:
   std::vector<unsigned long> changed_offset_list_;
   std::vector<std::vector<uint8_t>> xor_bytes_list_;
 
-  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   // | FUNCTIONS
-  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   unsigned long decrypt(uint8_t *pointer[]);
   std::vector<uint8_t> encrypt(unsigned long offset);
   std::vector<uint8_t> to_binary();

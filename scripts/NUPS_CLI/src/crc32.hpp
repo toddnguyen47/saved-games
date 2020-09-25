@@ -8,7 +8,7 @@
 class Crc32 {
 public:
   Crc32();
-  unsigned int crc32_calculate(std::vector<uint8_t> data);
+  unsigned int crc32_calculate(const std::vector<uint8_t> &data);
 
 private:
   const unsigned int crc32_table_[256];

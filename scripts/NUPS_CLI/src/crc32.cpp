@@ -46,7 +46,7 @@ Crc32::Crc32()
                  0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d} {
 }
 
-unsigned int Crc32::crc32_calculate(std::vector<uint8_t> data) {
+unsigned int Crc32::crc32_calculate(const std::vector<uint8_t> &data) {
   std::cout << "Starting: CRC32 calculations" << std::endl;
   unsigned int crc32 = 0xFFFFFFFF;
   for (int i = 0; i < data.size(); i++) {
@@ -56,9 +56,9 @@ unsigned int Crc32::crc32_calculate(std::vector<uint8_t> data) {
   return ~crc32;
 }
 
-// ---------------------------------------------------------
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // | PRIVATE FUNCTIONS
-// ---------------------------------------------------------
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 unsigned int Crc32::crc32_adjust(unsigned int crc32, uint8_t input) {
   return ((crc32 >> 8) & 0x00FFFFFF) ^ this->crc32_table_[(crc32 ^ input) & 0xFF];
