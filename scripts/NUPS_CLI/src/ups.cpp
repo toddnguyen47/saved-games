@@ -141,8 +141,8 @@ std::vector<uint8_t> Ups::to_binary() {
   byte_vector.push_back('S');
   byte_vector.push_back('1');
 
-  this->vector_concat_.concat(byte_vector, this->encrypt(this->old_file_size_));
-  this->vector_concat_.concat(byte_vector, this->encrypt(this->new_file_size_));
+  vector_concat::concat(byte_vector, this->encrypt(this->old_file_size_));
+  vector_concat::concat(byte_vector, this->encrypt(this->new_file_size_));
 
   for (int i = 0; i < this->changed_offset_list_.size(); i++) {
     unsigned long relative_offset = this->changed_offset_list_[i];
@@ -152,16 +152,16 @@ std::vector<uint8_t> Ups::to_binary() {
       relative_offset -= static_cast<unsigned long>(temp_offset);
     }
 
-    this->vector_concat_.concat(byte_vector, this->encrypt(relative_offset));
-    this->vector_concat_.concat(byte_vector, this->xor_bytes_list_[i]);
+    vector_concat::concat(byte_vector, this->encrypt(relative_offset));
+    vector_concat::concat(byte_vector, this->xor_bytes_list_[i]);
     byte_vector.push_back(0);
   }
 
   std::vector<uint8_t> temp_byte_array(4);
   temp_byte_array = this->int_to_bytes_little_endian(this->original_file_crc32_);
-  this->vector_concat_.concat(byte_vector, temp_byte_array);
+  vector_concat::concat(byte_vector, temp_byte_array);
   temp_byte_array = this->int_to_bytes_little_endian(this->new_file_crc32_);
-  this->vector_concat_.concat(byte_vector, temp_byte_array);
+  vector_concat::concat(byte_vector, temp_byte_array);
 
   return byte_vector;
 }

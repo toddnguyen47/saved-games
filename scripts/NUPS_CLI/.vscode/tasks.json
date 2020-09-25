@@ -31,11 +31,11 @@
       "group": "none",
       "args": [
         "--gba",
-        "Z:\\DocumentsAndStuff\\Downloads\\bruh\\FE8-Clean.gba",
+        "Z:\\usr\\GitHub\\SavedGames\\ROMS\\FE8\\FE8-Clean.gba",
         "--ups",
-        "Z:\\DocumentsAndStuff\\Downloads\\bruh\\FE8-Rebalanced-1.0.5.ups",
+        "Z:\\DocumentsAndStuff\\Downloads\\FE8-Rebalanced-1.0.5.ups",
         "--output",
-        "FE8-patched"
+        "Fire-Emblem-8-The-Sacred-Stones-ZxRebalanced-2.0-NA"
       ],
       "problemMatcher": []
     },

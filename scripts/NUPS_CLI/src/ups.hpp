@@ -21,7 +21,6 @@ public:
 
 private:
   Crc32 crc32_;
-  VectorConcat<unsigned char> vector_concat_;
   bool validPatch_;
 
   unsigned int original_file_crc32_;
