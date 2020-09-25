@@ -76,19 +76,16 @@ std::vector<uint8_t> NupsCli::read_gba_file() {
     exit(-1);
   }
 
-  char *memblock = new char[size]; // new[], so we must call delete[]!
+  std::unique_ptr<char[]> memblock = std::make_unique<char[]>(size);
   std::vector<uint8_t> gba_file(size);
-  uint8_t *gba_file_ptr = &gba_file[0];
 
   gba_file_input_stream.seekg(0, std::ios::beg);
-  gba_file_input_stream.read(memblock, size);
+  gba_file_input_stream.read(memblock.get(), size);
 
   unsigned int begin = 0;
   unsigned int end = static_cast<unsigned int>(size);
   for (unsigned int j = begin; j < end; j++)
-    gba_file_ptr[j] = memblock[j];
-
-  delete[] memblock;
+    gba_file[j] = memblock[j];
 
   std::cout << "FINISHED: Reading in GBA clean ROM" << std::endl;
   return gba_file;
