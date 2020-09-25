@@ -1,3 +1,4 @@
 --indent=spaces=2
+--indent-namespaces
 --max-code-length=90
---style=allman
+--style=java

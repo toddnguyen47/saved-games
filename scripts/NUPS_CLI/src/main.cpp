@@ -2,10 +2,8 @@
 #include <chrono>
 #include <iostream>
 
-int main(int argc, char *argv[])
-{
-  if (argc < 2)
-  {
+int main(int argc, char *argv[]) {
+  if (argc < 2) {
     std::cout << "Please supply a --gba and a --input file" << std::endl;
     exit(-1);
   }
@@ -14,29 +12,24 @@ int main(int argc, char *argv[])
   std::string ups_file_path = "";
   std::string output_file_path = "";
   int index = 0;
-  while (index < argc)
-  {
+  while (index < argc) {
     std::string token = std::string(argv[index]);
-    if (0 == token.compare("--gba"))
-    {
+    if (0 == token.compare("--gba")) {
       index += 1;
       gba_file_path = std::string(argv[index]);
     }
 
-    else if (0 == token.compare("--ups"))
-    {
+    else if (0 == token.compare("--ups")) {
       index += 1;
       ups_file_path = std::string(argv[index]);
     }
 
-    else if (0 == token.compare("--output"))
-    {
+    else if (0 == token.compare("--output")) {
       index += 1;
       output_file_path = std::string(argv[index]);
     }
 
-    else if (0 == token.compare("--help"))
-    {
+    else if (0 == token.compare("--help")) {
       std::cout << "Example usage:"
                 << std::endl
                 << "NupsCli.exe --gba Clean.gba --ups patch.ups"

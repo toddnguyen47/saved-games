@@ -4,12 +4,10 @@ NupsCli::NupsCli(std::string gba_file_path, std::string ups_file_path,
                  std::string full_output_path)
   : gba_file_path_(gba_file_path),
     ups_file_path_(ups_file_path),
-    full_output_path_(full_output_path)
-{
+    full_output_path_(full_output_path) {
 }
 
-void NupsCli::execute()
-{
+void NupsCli::execute() {
   std::cout << "Patching..." << std::endl;
   auto output_filename_future = std::async(std::launch::async,
                                 &NupsCli::set_output_filename,
@@ -24,8 +22,7 @@ void NupsCli::execute()
   std::vector<uint8_t> ups_file = future_ups.get();
   std::vector<uint8_t> gba_file = future_gba.get();
 
-  if (!this->ups_.is_file_valid_to_apply(gba_file))
-  {
+  if (!this->ups_.is_file_valid_to_apply(gba_file)) {
     std::cerr << "GBA File does not match the Patch.";
     exit(-1);
   }
@@ -38,8 +35,7 @@ void NupsCli::execute()
 // ---------------------------------------------------------
 // | PRIVATE FUNCTIONS
 // ---------------------------------------------------------
-std::vector<uint8_t> NupsCli::read_patch_check_valid_patch()
-{
+std::vector<uint8_t> NupsCli::read_patch_check_valid_patch() {
   std::cout << "Reading & Checking in UPS patch file" << std::endl;
 
   std::ifstream ups_file_input_stream(this->ups_file_path_, std::ios::binary);
@@ -47,8 +43,7 @@ std::vector<uint8_t> NupsCli::read_patch_check_valid_patch()
   // copies all data into buffer
   std::vector<uint8_t> ups_file(std::istreambuf_iterator<char>(ups_file_input_stream), {});
 
-  if (ups_file.size() <= 0)
-  {
+  if (ups_file.size() <= 0) {
     std::cerr << "UPS File does not exist:" << std::endl
               << "  '" << this->ups_file_path_ << "'" << std::endl;
     exit(-1);
@@ -56,8 +51,7 @@ std::vector<uint8_t> NupsCli::read_patch_check_valid_patch()
 
   ups_file_input_stream.close();
   // Check valid patch
-  if (!this->ups_.is_valid_patch(ups_file))
-  {
+  if (!this->ups_.is_valid_patch(ups_file)) {
     std::cerr << "The patch is corrupt.";
     exit(-1);
   }
@@ -66,8 +60,7 @@ std::vector<uint8_t> NupsCli::read_patch_check_valid_patch()
   return ups_file;
 }
 
-std::vector<uint8_t> NupsCli::read_gba_file()
-{
+std::vector<uint8_t> NupsCli::read_gba_file() {
   std::cout << "Reading in GBA clean ROM" << std::endl;
 
   // Check valid file
@@ -77,8 +70,7 @@ std::vector<uint8_t> NupsCli::read_gba_file()
                                       std::ios::binary | std::ios::ate);
   std::streampos size = gba_file_input_stream.tellg();
 
-  if (size <= 0)
-  {
+  if (size <= 0) {
     std::cerr << "GBA File does not exist:" << std::endl
               << "  '" << this->gba_file_path_ << "'" << std::endl;
     exit(-1);
@@ -102,8 +94,7 @@ std::vector<uint8_t> NupsCli::read_gba_file()
   return gba_file;
 }
 
-void NupsCli::output(std::vector<uint8_t> patched_gba_file)
-{
+void NupsCli::output(std::vector<uint8_t> patched_gba_file) {
   std::cout << "Writing to a new patched file." << std::endl;
   std::ofstream new_filename_ofstream(this->full_output_path_, std::ios::binary);
   new_filename_ofstream.write(reinterpret_cast<char *>(&patched_gba_file[0]),
@@ -115,11 +106,9 @@ void NupsCli::output(std::vector<uint8_t> patched_gba_file)
             << std::endl;
 }
 
-void NupsCli::set_output_filename()
-{
+void NupsCli::set_output_filename() {
   const size_t index = this->gba_file_path_.find_last_of("\\/");
-  if (std::string::npos == index)
-  {
+  if (std::string::npos == index) {
     std::cout << "GBA filepath is wrong.\n'" << this->gba_file_path_ << "'" << std::endl;
     exit(-1);
   }
@@ -129,8 +118,7 @@ void NupsCli::set_output_filename()
   const std::string new_filename = this->gba_file_path_.substr(index + 1);
   // Find extension
   const size_t rpos = new_filename.rfind(".");
-  if (std::string::npos == rpos)
-  {
+  if (std::string::npos == rpos) {
     std::cout << "File does not have an extension\n'" << new_filename << "'" << std::endl;
     exit(-1);
   }

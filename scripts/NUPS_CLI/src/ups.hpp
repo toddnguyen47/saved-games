@@ -12,8 +12,7 @@
 #include <string>
 #include <vector>
 
-class Ups
-{
+class Ups {
 public:
   Ups();
   bool is_valid_patch(std::vector<uint8_t> ups_file);

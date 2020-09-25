@@ -2,13 +2,11 @@
 
 Ups::Ups() :
   validPatch_(false),
-  old_file_size_(0), new_file_size_(0)
-{
+  old_file_size_(0), new_file_size_(0) {
 
 }
 
-bool Ups::is_valid_patch(std::vector<uint8_t> ups_file)
-{
+bool Ups::is_valid_patch(std::vector<uint8_t> ups_file) {
   this->changed_offset_list_.clear();
   this->xor_bytes_list_.clear();
 
@@ -16,8 +14,7 @@ bool Ups::is_valid_patch(std::vector<uint8_t> ups_file)
   uint8_t *current_ptr = ups_ptr;
 
   std::string header;
-  for (int i = 0; i < 4; i++)
-  {
+  for (int i = 0; i < 4; i++) {
     header.push_back(*current_ptr);
     current_ptr += 1;
   }
@@ -33,14 +30,12 @@ bool Ups::is_valid_patch(std::vector<uint8_t> ups_file)
   unsigned int end_of_file_crc_bytes = 12;
   unsigned int end_ptr = static_cast<unsigned int>(ups_file.size()) - end_of_file_crc_bytes;
 
-  while (current_ptr - ups_ptr + 1 < end_ptr)
-  {
+  while (current_ptr - ups_ptr + 1 < end_ptr) {
     file_position += this->decrypt(&current_ptr);
     this->changed_offset_list_.push_back(file_position);
     std::vector<uint8_t> new_xor_data;
 
-    while (*current_ptr != 0)
-    {
+    while (*current_ptr != 0) {
       new_xor_data.push_back(*current_ptr);
       current_ptr += 1;
     }
@@ -63,8 +58,7 @@ bool Ups::is_valid_patch(std::vector<uint8_t> ups_file)
   return this->validPatch_;
 }
 
-bool Ups::is_file_valid_to_apply(std::vector<uint8_t> gba_file)
-{
+bool Ups::is_file_valid_to_apply(std::vector<uint8_t> gba_file) {
   std::cout << "Checking if GBA file is valid" << std::endl;
 
   unsigned int file_crc32 = this->crc32_.crc32_calculate(gba_file);
@@ -78,8 +72,7 @@ bool Ups::is_file_valid_to_apply(std::vector<uint8_t> gba_file)
   return this->validPatch_ && (fit_as_old || fit_as_new);
 }
 
-std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file)
-{
+std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file) {
   unsigned long length = std::max<unsigned long>(static_cast<unsigned long>
                          (gba_file.size()), this->new_file_size_);
   std::vector<uint8_t> result(length);
@@ -91,11 +84,9 @@ std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file)
   for (unsigned int i = 0; i < min_length; i++)
     result_ptr[i] = gba_file[i];
 
-  for (size_t i = 0; i < this->changed_offset_list_.size(); i++)
-  {
+  for (size_t i = 0; i < this->changed_offset_list_.size(); i++) {
     for (size_t xor_bytes_len = 0; xor_bytes_len < this->xor_bytes_list_[i].size();
-         xor_bytes_len++)
-    {
+         xor_bytes_len++) {
       auto ulong_len = static_cast<unsigned long>(xor_bytes_len);
       result_ptr[this->changed_offset_list_[i] + ulong_len] ^=
         this->xor_bytes_list_[i][xor_bytes_len];
@@ -109,16 +100,14 @@ std::vector<uint8_t> Ups::apply_patch(std::vector<uint8_t> gba_file)
 // | PRIVATE FUNCTIONS
 // ---------------------------------------------------------
 
-unsigned long Ups::decrypt(uint8_t *pointer[])
-{
+unsigned long Ups::decrypt(uint8_t *pointer[]) {
   unsigned long value = 0;
   int shift = 1;
   uint8_t x = **pointer;
   *pointer += 1;
   value += static_cast<unsigned long>((x & 0x7F) * shift);
 
-  while ((x & 0x80) == 0)
-  {
+  while ((x & 0x80) == 0) {
     shift <<= 7;
     value += static_cast<unsigned long>(shift);
     x = **pointer;
@@ -129,14 +118,12 @@ unsigned long Ups::decrypt(uint8_t *pointer[])
   return value;
 }
 
-std::vector<uint8_t> Ups::encrypt(unsigned long offset)
-{
+std::vector<uint8_t> Ups::encrypt(unsigned long offset) {
   std::vector<uint8_t> bytes;
 
   unsigned long x = offset & 0x7F;
   offset >>= 7;
-  while (offset != 0)
-  {
+  while (offset != 0) {
     bytes.push_back(static_cast<uint8_t>(x));
     offset -= 1;
     x = offset & 0x7F;
@@ -147,8 +134,7 @@ std::vector<uint8_t> Ups::encrypt(unsigned long offset)
   return bytes;
 }
 
-std::vector<uint8_t> Ups::to_binary()
-{
+std::vector<uint8_t> Ups::to_binary() {
   std::vector<uint8_t> byte_vector;
   byte_vector.push_back('U');
   byte_vector.push_back('P');
@@ -158,11 +144,9 @@ std::vector<uint8_t> Ups::to_binary()
   this->vector_concat_.concat(byte_vector, this->encrypt(this->old_file_size_));
   this->vector_concat_.concat(byte_vector, this->encrypt(this->new_file_size_));
 
-  for (int i = 0; i < this->changed_offset_list_.size(); i++)
-  {
+  for (int i = 0; i < this->changed_offset_list_.size(); i++) {
     unsigned long relative_offset = this->changed_offset_list_[i];
-    if (i != 0)
-    {
+    if (i != 0) {
       auto temp_offset = this->changed_offset_list_[i - 1]
                          + this->xor_bytes_list_[i - 1].size() + 1;
       relative_offset -= static_cast<unsigned long>(temp_offset);
@@ -183,8 +167,7 @@ std::vector<uint8_t> Ups::to_binary()
 }
 
 /** Ref: https://stackoverflow.com/a/5585683/6323360 */
-std::vector<uint8_t> Ups::int_to_bytes_big_endian(int input)
-{
+std::vector<uint8_t> Ups::int_to_bytes_big_endian(int input) {
   int max_size = 4;
   std::vector<uint8_t> byte_array(max_size, 0);
   for (int i = 0; i < max_size; i++)
@@ -193,17 +176,14 @@ std::vector<uint8_t> Ups::int_to_bytes_big_endian(int input)
   return byte_array;
 }
 
-std::vector<uint8_t> Ups::int_to_bytes_little_endian(int input)
-{
+std::vector<uint8_t> Ups::int_to_bytes_little_endian(int input) {
   std::vector<uint8_t> byte_array = this->int_to_bytes_big_endian(input);
   // Reverse every byte
   size_t lo = 0;
   size_t hi = byte_array.size() - 1;
-  while (lo < hi)
-  {
+  while (lo < hi) {
     // Double checking since this algorithm WILL fail when lo == hi
-    if (lo != hi)
-    {
+    if (lo != hi) {
       // Get diff
       byte_array[lo] = byte_array[lo] ^ byte_array[hi];
       // Assign hi; important, assign hi FIRST
