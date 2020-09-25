@@ -2,6 +2,7 @@
 #define SRC_UPS_H_
 
 #include "crc32.hpp"
+#include "byte_conversion.hpp"
 #include "vector_concat.hpp"
 
 #include <algorithm>
@@ -35,10 +36,6 @@ private:
   unsigned long decrypt(uint8_t *pointer[]);
   std::vector<uint8_t> encrypt(unsigned long offset);
   std::vector<uint8_t> to_binary();
-
-  /** Ref: https://stackoverflow.com/a/5585683/6323360 */
-  std::vector<uint8_t> int_to_bytes_big_endian(int input);
-  std::vector<uint8_t> int_to_bytes_little_endian(int input);
 };
 
 #endif // SRC_UPS_H_
