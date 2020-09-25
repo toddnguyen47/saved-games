@@ -44,10 +44,7 @@ bool Ups::is_valid_patch(std::vector<uint8_t> ups_file) {
     current_ptr += 1;
   }
 
-  // End, CRC32
-  this->original_file_crc32_ = *(reinterpret_cast<unsigned int *>(current_ptr));
-  this->new_file_crc32_ = *(reinterpret_cast<unsigned int *>(current_ptr + 4));
-  this->patch_crc32_ = *(reinterpret_cast<unsigned int *>(current_ptr + 8));
+  this->set_ups_crc32(current_ptr, ups_file);
 
   auto binary_byte_vector = this->to_binary();
   unsigned int calculated_crc32 = this->crc32_.crc32_calculate(
@@ -164,4 +161,19 @@ std::vector<uint8_t> Ups::to_binary() {
   vector_concat::concat(byte_vector, temp_byte_array);
 
   return byte_vector;
+}
+
+void Ups::set_ups_crc32(const uint8_t* current_ptr,
+                        const std::vector<uint8_t> &ups_file) {
+  const uint8_t* ups_ptr = &ups_file[0];
+  unsigned int start_index = static_cast<unsigned int>(current_ptr - ups_ptr);
+  unsigned int byte_length = 4;
+  byte_conversion::bytes_to_uint_little_endian(
+    ups_file, start_index + 8, 4);
+  this->original_file_crc32_ = byte_conversion::bytes_to_uint_little_endian(
+                                 ups_file, start_index + 0, 4);
+  this->new_file_crc32_ = byte_conversion::bytes_to_uint_little_endian(
+                            ups_file, start_index + 4, 4);
+  this->patch_crc32_ = byte_conversion::bytes_to_uint_little_endian(
+                         ups_file, start_index + 8, 4);
 }

@@ -32,4 +32,33 @@ namespace byte_conversion {
 
     return byte_array;
   }
+
+  unsigned int bytes_to_uint_big_endian(
+    const std::vector<uint8_t> &bytes, const unsigned int start_index,
+    const unsigned int byte_length) {
+    std::stringstream ss;
+    for (unsigned int i = 0; i < byte_length; i++) {
+      unsigned int c1 = bytes[start_index + i];
+      ss << std::uppercase << std::hex << c1;
+    }
+
+    unsigned int result = 0;
+    ss >> std::hex >> result;
+
+    return result;
+  }
+
+  unsigned int bytes_to_uint_little_endian(
+    const std::vector<uint8_t> &bytes, const unsigned int start_index,
+    const unsigned int byte_length) {
+    // Reverse bytes
+    std::vector<uint8_t> byte_reversed(byte_length);
+
+    for (unsigned int i = 0; i < byte_length; i++) {
+      byte_reversed[i] = bytes[start_index + byte_length - i - 1];
+    }
+
+    return byte_conversion::bytes_to_uint_big_endian(byte_reversed,
+           0, byte_length);
+  }
 }

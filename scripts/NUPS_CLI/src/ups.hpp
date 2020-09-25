@@ -33,9 +33,13 @@ private:
   std::vector<unsigned long> changed_offset_list_;
   std::vector<std::vector<uint8_t>> xor_bytes_list_;
 
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // | FUNCTIONS
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   unsigned long decrypt(uint8_t *pointer[]);
   std::vector<uint8_t> encrypt(unsigned long offset);
   std::vector<uint8_t> to_binary();
+  void set_ups_crc32(const uint8_t* current_ptr, const std::vector<uint8_t> &ups_file);
 };
 
 #endif // SRC_UPS_H_
