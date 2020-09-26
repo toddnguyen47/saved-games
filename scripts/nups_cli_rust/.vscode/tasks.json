@@ -1,0 +1,32 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "NupsCli: Build Release",
+      "command": "cargo",
+      "group": "build",
+      "args": ["build", "--release"],
+      "problemMatcher": []
+    },
+    {
+      "label": "NupsCli: Run Release",
+      "command": "target/release/nups_cli_rust.exe",
+      "args": [
+        "--gba",
+        "C:\\Users\\i1A771792\\usr\\PER\\GITH\\SavedGames\\ROMS\\FE8\\nupscli\\FE8-Clean.GBA",
+        "--ups",
+        "C:\\Users\\i1A771792\\Downloads\\FE8-Rebalanced-1.0.5.ups"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "NupsCli: Build & Run Release",
+      "dependsOrder": "sequence",
+      "dependsOn": ["NupsCli: Build Release", "NupsCli: Run Release"],
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

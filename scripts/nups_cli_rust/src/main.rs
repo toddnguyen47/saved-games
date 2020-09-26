@@ -1,0 +1,40 @@
+use structopt::StructOpt;
+
+mod nups_cli;
+use nups_cli::NupsCli;
+
+mod byte_conversion;
+mod crc32;
+/// Ref: https://stackoverflow.com/a/48071730/6323360
+mod ups;
+
+#[derive(StructOpt, Debug)]
+#[structopt(name = "NupsCliRust", about = "NUPS CLI written in Rust!")]
+struct Cli {
+  /// UPS file path
+  #[structopt(long = "--ups")]
+  ups_file: String,
+  /// GBA file path
+  #[structopt(long = "--gba")]
+  gba_file: String,
+  /// Optional output file name
+  #[structopt(long = "--output")]
+  output_filename: Option<String>,
+}
+
+fn main() {
+  let args = Cli::from_args();
+
+  let output_filename = match args.output_filename {
+    Some(string_val) => string_val,
+    None => String::from(""),
+  };
+
+  use std::time::Instant;
+  let start = Instant::now();
+  let nups_cli_obj = NupsCli::new(&args.gba_file, &args.ups_file, &output_filename);
+  nups_cli_obj.execute();
+  let elapsed = start.elapsed().as_millis();
+
+  println!("Elapsed Time: {:.4} seconds", elapsed as f64 / 1000f64);
+}
