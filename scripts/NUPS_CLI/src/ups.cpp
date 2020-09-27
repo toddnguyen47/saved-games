@@ -63,7 +63,7 @@ bool Ups::is_file_valid_to_apply(const std::vector<uint8_t> &gba_file) {
   bool fit_as_old = (this->old_file_size_ == gba_filelength)
                     && (file_crc32 == this->original_file_crc32_);
   bool fit_as_new = (this->new_file_size_ == gba_filelength)
-                    && (file_crc32 && this->new_file_crc32_);
+                    && (file_crc32 == this->new_file_crc32_);
 
   std::cout << "Finished: Checking if GBA file is valid" << std::endl;
   return this->validPatch_ && (fit_as_old || fit_as_new);
