@@ -12,7 +12,8 @@ pub struct Ups {
   changed_offset_list_: Vec<u32>,
   xor_bytes_list_: Vec<Vec<u8>>,
   current_ptr_: u32,
-  crc32_struct: Crc32Nums,
+  crc32_struct_: Crc32Nums,
+  crc32_: Crc32,
 }
 
 #[derive(Debug)]
@@ -23,7 +24,7 @@ struct Crc32Nums {
 }
 
 impl Ups {
-  pub fn new() -> Ups {
+  pub fn new(crc32: Crc32) -> Ups {
     Ups {
       valid_patch_: false,
       old_file_size_: 0,
@@ -31,11 +32,12 @@ impl Ups {
       changed_offset_list_: Vec::<u32>::new(),
       xor_bytes_list_: Vec::<Vec<u8>>::new(),
       current_ptr_: 0,
-      crc32_struct: Crc32Nums {
+      crc32_struct_: Crc32Nums {
         original_file: 0,
         new_file: 0,
         patch: 0,
       },
+      crc32_: crc32,
     }
   }
 
@@ -81,15 +83,51 @@ impl Ups {
     self.set_ups_crc32(ups_file);
 
     let binary_byte_vector = self.to_binary();
-    let crc32 = Crc32::new();
-    let calculated_crc32 = crc32.crc32_calculate(binary_byte_vector);
+    let calculated_crc32 = self.crc32_.crc32_calculate(&binary_byte_vector);
 
-    self.valid_patch_ = calculated_crc32 == self.crc32_struct.patch;
+    self.valid_patch_ = calculated_crc32 == self.crc32_struct_.patch;
 
+    println!("FINISHED: Checking if patch is valid.");
     match self.valid_patch_ {
       true => Ok(()),
       false => Err(anyhow::anyhow!("Patch was not valid")),
     }
+  }
+
+  pub fn is_file_valid_to_apply(&self, gba_file: &[u8]) -> Result<(), anyhow::Error> {
+    println!("Checking if GBA file is valid...");
+    let file_crc32 = self.crc32_.crc32_calculate(gba_file);
+    let gba_filelength = gba_file.len() as u32;
+    let fit_as_old =
+      self.old_file_size_ == gba_filelength && file_crc32 == self.crc32_struct_.original_file;
+    let fit_as_new =
+      self.new_file_size_ == gba_filelength && file_crc32 == self.crc32_struct_.new_file;
+
+    let results = self.valid_patch_ && (fit_as_old || fit_as_new);
+    println!("FINISHED: Checking if GBA file is valid...");
+    match results {
+      true => Ok(()),
+      false => Err(anyhow::anyhow!("GBA file is NOT valid!")),
+    }
+  }
+
+  pub fn apply_patch(&self, gba_file: &[u8]) -> Vec<u8> {
+    let length = std::cmp::max(gba_file.len(), self.new_file_size_ as usize);
+    let mut patched_gba_file = vec![0; length];
+    let min_length = std::cmp::min(gba_file.len(), length);
+
+    for i in 0..min_length {
+      patched_gba_file[i] = gba_file[i];
+    }
+
+    for i in 0..self.changed_offset_list_.len() {
+      for j in 0..self.xor_bytes_list_[i].len() {
+        let index = self.changed_offset_list_[i] as usize + j;
+        patched_gba_file[index] ^= self.xor_bytes_list_[i][j];
+      }
+    }
+
+    patched_gba_file
   }
 
   // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -135,13 +173,13 @@ impl Ups {
     let ptr = self.current_ptr_ as usize;
 
     let mut cursor = Cursor::new(&ups_file[ptr + 0..ptr + 4]);
-    self.crc32_struct.original_file = cursor.read_u32::<byteorder::LittleEndian>().unwrap();
+    self.crc32_struct_.original_file = cursor.read_u32::<byteorder::LittleEndian>().unwrap();
 
     let mut cursor = Cursor::new(&ups_file[ptr + 4..ptr + 8]);
-    self.crc32_struct.new_file = cursor.read_u32::<byteorder::LittleEndian>().unwrap();
+    self.crc32_struct_.new_file = cursor.read_u32::<byteorder::LittleEndian>().unwrap();
 
     let mut cursor = Cursor::new(&ups_file[ptr + 8..ptr + 12]);
-    self.crc32_struct.patch = cursor.read_u32::<byteorder::LittleEndian>().unwrap();
+    self.crc32_struct_.patch = cursor.read_u32::<byteorder::LittleEndian>().unwrap();
   }
 
   fn to_binary(&self) -> Vec<u8> {
@@ -168,11 +206,11 @@ impl Ups {
     }
 
     byte_vector.extend(byte_conversion::convert_int_to_bytes_little_endian(
-      self.crc32_struct.original_file,
+      self.crc32_struct_.original_file,
     ));
 
     byte_vector.extend(byte_conversion::convert_int_to_bytes_little_endian(
-      self.crc32_struct.new_file,
+      self.crc32_struct_.new_file,
     ));
 
     byte_vector

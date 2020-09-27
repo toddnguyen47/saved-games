@@ -1,13 +1,14 @@
 use std::convert::TryFrom;
 
+#[derive(Debug)]
 pub struct Crc32 {
-  crc32_table_: [u32; 256],
+  crc32_table_: Vec<u32>,
 }
 
 impl Crc32 {
   pub fn new() -> Crc32 {
     Crc32 {
-      crc32_table_: [
+      crc32_table_: vec![
         0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f, 0xe963a535,
         0x9e6495a3, 0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988, 0x09b64c2b, 0x7eb17cbd,
         0xe7b82d07, 0x90bf1d91, 0x1db71064, 0x6ab020f2, 0xf3b97148, 0x84be41de, 0x1adad47d,
@@ -49,7 +50,7 @@ impl Crc32 {
     }
   }
 
-  pub fn crc32_calculate(&self, data: Vec<u8>) -> u32 {
+  pub fn crc32_calculate(&self, data: &[u8]) -> u32 {
     let mut crc32: u32 = 0xFFFFFFFF;
     for i in 0..data.len() {
       crc32 = self.crc32_adjust(crc32, data[i]);

@@ -1,11 +1,16 @@
+// Ref: Similarities Between RefCell<T>/Rc<T> and Mutex<T>/Arc<T>
+// Ref: https://doc.rust-lang.org/1.30.0/book/2018-edition/ch16-03-shared-state.html
+use std::sync::Arc;
 use structopt::StructOpt;
 
+// Ref: https://stackoverflow.com/a/48071730/6323360
 mod nups_cli;
 use nups_cli::NupsCli;
 
 mod byte_conversion;
 mod crc32;
-/// Ref: https://stackoverflow.com/a/48071730/6323360
+mod factory;
+use factory::Factory;
 mod ups;
 
 #[derive(StructOpt, Debug)]
@@ -32,7 +37,11 @@ fn main() {
 
   use std::time::Instant;
   let start = Instant::now();
-  let nups_cli_obj = NupsCli::new(&args.gba_file, &args.ups_file, &output_filename);
+  let nups_cli_obj = Arc::new(Factory::create_nups_cli(
+    &args.gba_file,
+    &args.ups_file,
+    &output_filename,
+  ));
   nups_cli_obj.execute();
   let elapsed = start.elapsed().as_millis();
 
