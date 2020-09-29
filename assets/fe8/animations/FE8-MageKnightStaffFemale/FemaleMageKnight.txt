@@ -33,6 +33,7 @@ C0D                               #End of dodge animation. preceeded by 0x06
 C03                               #Start attack animation; need 07 right after this.
 C07                               #Start attack animation; need 03 right before this.
 1 p- FemaleMageKnight_000.png
+C4F                               #Play druid critical charging SFE
 3 p- FemaleMageKnight_015.png
 3 p- FemaleMageKnight_016.png
 3 p- FemaleMageKnight_017.png
@@ -97,6 +98,7 @@ C0D                               #End of dodge animation. preceeded by 0x06
 C03                               #Start attack animation; need 07 right after this.
 C07                               #Start attack animation; need 03 right before this.
 1 p- FemaleMageKnight_000.png
+C4F                               #Play druid critical charging SFE
 3 p- FemaleMageKnight_015.png
 3 p- FemaleMageKnight_016.png
 3 p- FemaleMageKnight_017.png
