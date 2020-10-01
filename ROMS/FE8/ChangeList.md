@@ -83,6 +83,7 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
   - Add Wretched Air animation.
   - **EXPLANATION:** Giving Myrhh a monster weapon so she can be of some use in your party.
 - Paladin
+  - Max STR: (M) 25 → 26, (F) 23 → 24
   - Max SKL: (M) 26 → 27, (F) 27 → 28
   - Able to use Axes and import axe animations.
   - **EXPLANATION:** Unpopular opinion, but I think the Paladin is outclassed by the Great Knight /
