@@ -85,6 +85,7 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 - Paladin
   - Max STR: (M) 25 → 26, (F) 23 → 24
   - Max SKL: (M) 26 → 27, (F) 27 → 28
+  - Max SPD: (M) 24 → 25, (F) 25 → 26
   - Able to use Axes and import axe animations.
   - **EXPLANATION:** Unpopular opinion, but I think the Paladin is outclassed by the Great Knight /
     General in this game. Perhaps it's because I play the game slowly that I think so... Anyhow, I made
