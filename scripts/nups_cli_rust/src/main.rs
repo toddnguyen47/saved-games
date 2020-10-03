@@ -30,10 +30,7 @@ struct Cli {
 fn main() {
   let args = Cli::from_args();
 
-  let output_filename = match args.output_filename {
-    Some(string_val) => string_val,
-    None => String::from(""),
-  };
+  let output_filename = args.output_filename.unwrap_or(String::from(""));
 
   use std::time::Instant;
   let start = Instant::now();
