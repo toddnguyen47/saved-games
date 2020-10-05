@@ -18,17 +18,17 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 
 ## Characters
 
-|          Lyn |  LV |  HP | STR | SKL | SPD | DEF | RES | LUK |
-| -----------: | --: | --: | --: | --: | --: | --: | --: | --: |
-|   Base Stats |   3 |   6 |   2 |  10 |  11 |   2 |   1 |   6 |
-| Growth Rates |     |  70 |  40 |  60 |  60 |  20 |  30 |  55 |
+|          Lyn |   LV |   HP |  STR |  SKL |  SPD |  DEF |  RES |  LUK |
+| -----------: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+|   Base Stats |    3 |    6 |    2 |   10 |   11 |    2 |    1 |    6 |
+| Growth Rates |      |   70 |   40 |   60 |   60 |   20 |   30 |   55 |
 
 - Similar base stats and same growth rates as Fire Emblem 7
 
-|        Karla |  LV |  HP | STR | SKL | SPD | DEF | RES | LUK |
-| -----------: | --: | --: | --: | --: | --: | --: | --: | --: |
-|   Base Stats |   4 |   3 |   3 |   2 |   1 |   2 |   0 |   5 |
-| Growth Rates |     |  85 |  55 |  40 |  45 |  30 |  15 |  35 |
+|        Karla |   LV |   HP |  STR |  SKL |  SPD |  DEF |  RES |  LUK |
+| -----------: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+|   Base Stats |    4 |    3 |    3 |    2 |    1 |    2 |    0 |    5 |
+| Growth Rates |      |   85 |   55 |   40 |   45 |   30 |   15 |   35 |
 
 - Balanced base stats of roughly the same STR, SKL, and SPD
 - Similar growth rates to Raven from FE7. I want Karla to be a female Mercenary → Hero,
@@ -124,9 +124,16 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
     This way, Great Lord has -1 max SPD but +1 Movement (7 MOV compared to Wight's 6). Of course,
     Wights also have the ability to wield Swords (including the Shamshir!). You can decide
     which class you want Ephraim to gear towards.
-- Great Knight
-  - Max SKL: (M) 26 → 27
-  - **EXPLANATION:** Making sure the SUM of Max stats is the same as the (F) equivalent.
+- Wyvern Lord
+  - Max SKL: (M) 25 → 26, (F) 26 → 27
+  - Max SPD: (M) 24 → 25, (F) 25 → 26
+  - Max RES: (M) 23 → 24, (F) 24 → 25
+  - **EXPLANATION:** I think Wyvern Lord is massively overshadowed by the Wyvern Knight class.
+    Pierce is too good of a skill to pass up. Thus, I added some max stats to the Wyvern Lord class
+    to make the choice slightly not as one-sided as before. Now, Wyvern Lords have a total of
+    2 additional stats compared to the Wyvern Knight's total. With an extra 2 max stats and the
+    ability to use swords, will that be enough to lift them up over Wyvern Knight? Only you can
+    make that decision.
 
 ## Items
 
