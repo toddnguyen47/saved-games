@@ -18,17 +18,17 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 
 ## Characters
 
-|          Lyn |   LV |   HP |  STR |  SKL |  SPD |  DEF |  RES |  LUK |
-| -----------: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-|   Base Stats |    3 |    6 |    2 |   10 |   11 |    2 |    1 |    6 |
-| Growth Rates |      |   70 |   40 |   60 |   60 |   20 |   30 |   55 |
+|          Lyn |  LV |  HP | STR | SKL | SPD | DEF | RES | LUK |
+| -----------: | --: | --: | --: | --: | --: | --: | --: | --: |
+|   Base Stats |   3 |   6 |   2 |  10 |  11 |   2 |   1 |   6 |
+| Growth Rates |     |  70 |  40 |  60 |  60 |  20 |  30 |  55 |
 
 - Similar base stats and same growth rates as Fire Emblem 7
 
-|        Karla |   LV |   HP |  STR |  SKL |  SPD |  DEF |  RES |  LUK |
-| -----------: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-|   Base Stats |    4 |    3 |    3 |    2 |    1 |    2 |    0 |    5 |
-| Growth Rates |      |   85 |   55 |   40 |   45 |   30 |   15 |   35 |
+|        Karla |  LV |  HP | STR | SKL | SPD | DEF | RES | LUK |
+| -----------: | --: | --: | --: | --: | --: | --: | --: | --: |
+|   Base Stats |   4 |   3 |   3 |   2 |   1 |   2 |   0 |   5 |
+| Growth Rates |     |  85 |  55 |  40 |  45 |  30 |  15 |  35 |
 
 - Balanced base stats of roughly the same STR, SKL, and SPD
 - Similar growth rates to Raven from FE7. I want Karla to be a female Mercenary → Hero,
@@ -58,6 +58,15 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
     maxing that out near 20/19 or 20/20, his SKL increased by 2 which he should max around 20/15,
     and his SPD is increased by 3 so he can max it around 20/15, as well. I feel like those levels
     should reflect where his stats should be maxed, instead of it nearing maxing out only at 20/10.
+- Falcoknight
+  - Initial SWD Level: E → D
+  - Max SKL: 25 → 28
+  - Max SPD: 28 → 30
+  - **EXPLANATION:** Falcoknights are significantly weaker than Wyvern Knights. Buffing up their
+    Max SKL and SPD to be more in line to Swordmaster's, and buff their STR to match Wyvern Knight's.
+    In a way, Falcoknights should be similar to Swordmaster: they are fast, mobile units that do
+    not hit hard but hit often. Hopefully with increased SKL and SPD caps, they reflect that play
+    pattern more.
 - General
   - Can no longer use swords.
   - Axe starting level: E → D
@@ -111,6 +120,11 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
   - **EXPLANATION:** Face it, Ranger beats Sniper in every single sense of the word. Giving the
     Sniper +15% Crit can hopefully give this class the extra oomph it needs to balance out the
     Ranger's superior max stats and ability to use swords.
+- Swordmaster
+  - Max STR: (F) 22 → 23
+  - Max RES: (F) 25 → 24
+  - **EXPLANATION**: Swordmasters don't need RES, whut. Moving one point of RES to STR for
+    female Swordmasters (e.g. Marisa)
 - Valkyrie
   - Max SPD: (M) 25 → 26, (F) 25 → 26
   - **EXPLANATION:** Tie the Sage class for SPD max as L'Arachel gets capped out too early on.
