@@ -11,7 +11,7 @@ use crate::ups::Ups;
 pub struct NupsCli {
   gba_file_path_: String,
   ups_file_path_: String,
-  full_output_path_: String,
+  full_output_path_: Option<String>,
   ups_mutex_: Arc<Mutex<Ups>>,
 }
 
@@ -19,13 +19,13 @@ impl NupsCli {
   pub fn new(
     gba_file_path: &str,
     ups_file_path: &str,
-    full_output_path: &str,
+    full_output_path: Option<String>,
     ups: Arc<Mutex<Ups>>,
   ) -> NupsCli {
     NupsCli {
       gba_file_path_: String::from(gba_file_path),
       ups_file_path_: String::from(ups_file_path),
-      full_output_path_: String::from(full_output_path),
+      full_output_path_: full_output_path,
       ups_mutex_: ups,
     }
   }
@@ -123,11 +123,11 @@ impl NupsCli {
     let mut filename = String::from(path.file_stem().unwrap().to_str().unwrap());
     let extension = path.extension().unwrap().to_str().unwrap();
 
-    if self.full_output_path_ == "" {
-      filename.push_str("-patched");
-    } else {
-      filename = String::from(&self.full_output_path_)
+    match &self.full_output_path_ {
+      Some(output) => filename = output.to_string(),
+      None => filename.push_str("-patched"),
     }
+
     filename.push_str(".");
     filename.push_str(extension);
 

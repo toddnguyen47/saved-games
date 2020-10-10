@@ -30,14 +30,13 @@ struct Cli {
 fn main() {
   let args = Cli::from_args();
 
-  let output_filename = args.output_filename.unwrap_or(String::from(""));
-
+  let output_filename = args.output_filename;
   use std::time::Instant;
   let start = Instant::now();
   let nups_cli_obj = Arc::new(Factory::create_nups_cli(
     &args.gba_file,
     &args.ups_file,
-    &output_filename,
+    output_filename,
   ));
   nups_cli_obj.execute();
   let elapsed = start.elapsed().as_millis();

@@ -17,7 +17,7 @@ impl Factory {
   pub fn create_nups_cli(
     gba_file_path: &str,
     ups_file_path: &str,
-    full_output_path: &str,
+    full_output_path: Option<String>,
   ) -> NupsCli {
     NupsCli::new(
       gba_file_path,
