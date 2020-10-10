@@ -1,13 +1,11 @@
 use anyhow;
+use std::io::{Read, Write};
 use std::path::Path;
+use std::sync::mpsc::{Receiver, Sender};
 use std::sync::{mpsc, Arc, Mutex};
 use std::thread;
 use std::thread::JoinHandle;
 use std::{fs::File, path::PathBuf};
-use std::{
-  io::{Read, Write},
-  sync::mpsc::Receiver,
-};
 
 use crate::ups::Ups;
 
@@ -42,59 +40,71 @@ impl NupsCli {
   /// Start to patch our clean ROM!
   /// Ref: https://stackoverflow.com/a/25463033
   pub fn execute(self: &Arc<NupsCli>) {
-    let mut handles = Vec::<thread::JoinHandle<()>>::new();
-    handles.push(self.get_handle_check_valid_patch());
-
     let (tx, rx) = mpsc::channel::<RxType>();
-    let self2 = Arc::clone(&self);
-    let tx1 = mpsc::Sender::clone(&tx);
-    let handle = thread::spawn(move || {
-      let gba_file = self2
-        .read_gba_file()
-        .expect(&(format!("\nInvalid GBA File: '{}'\n", self2.gba_file_path_)));
-      tx1.send(RxType::Gba(gba_file)).unwrap();
-    });
-    handles.push(handle);
-
-    let self2 = Arc::clone(&self);
-    let tx1 = mpsc::Sender::clone(&tx);
-    let handle = thread::spawn(move || {
-      tx1
-        .send(RxType::OutputFileName(self2.get_output_filename()))
-        .unwrap();
-    });
-    handles.push(handle);
-
-    for handle in handles {
-      handle.join().unwrap();
-    }
+    self.check_validity(&tx);
 
     let (gba_file, output_pathbuf) = self.parse_mpsc_msg(&rx);
-
     let ups = self.ups_mutex_.lock().unwrap();
-    match ups.is_file_valid_to_apply(&gba_file) {
-      Ok(_) => {}
-      Err(err) => panic!("{}", err),
-    };
-
-    let patched_gba_file = ups.apply_patch(&gba_file);
-    match self.output(&patched_gba_file, &output_pathbuf) {
-      Ok(_) => {}
-      Err(err) => panic!("{}", err),
-    };
+    self.check_gba_file_valid_to_apply_patch(&ups, &gba_file);
+    self.patch_gba_file(&ups, &gba_file, &output_pathbuf);
   }
 
   // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   // | PRIVATE FUNCTIONS
   // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+  fn check_validity(self: &Arc<NupsCli>, tx: &Sender<RxType>) {
+    let mut handles = Vec::<thread::JoinHandle<()>>::new();
+    handles.push(self.get_handle_check_valid_patch());
+    handles.push(self.get_handle_check_valid_gba_file(&tx));
+    handles.push(self.get_handle_check_output_filename(&tx));
+    for handle in handles {
+      handle.join().unwrap();
+    }
+  }
+
   fn get_handle_check_valid_patch(self: &Arc<NupsCli>) -> JoinHandle<()> {
     let self2 = Arc::clone(&self);
-    let handle = thread::spawn(move || {
+    thread::spawn(move || {
       self2
         .read_patch_check_valid_patch()
         .expect(&(format!("\nInvalid UPS File: '{}'\n", self2.ups_file_path_)));
-    });
-    handle
+    })
+  }
+
+  fn get_handle_check_valid_gba_file(self: &Arc<NupsCli>, tx: &Sender<RxType>) -> JoinHandle<()> {
+    let self2 = Arc::clone(&self);
+    let tx1 = mpsc::Sender::clone(tx);
+    thread::spawn(move || {
+      let gba_file = self2
+        .read_gba_file()
+        .expect(&(format!("\nInvalid GBA File: '{}'\n", self2.gba_file_path_)));
+      tx1.send(RxType::Gba(gba_file)).unwrap();
+    })
+  }
+
+  fn get_handle_check_output_filename(self: &Arc<NupsCli>, tx: &Sender<RxType>) -> JoinHandle<()> {
+    let self2 = Arc::clone(&self);
+    let tx1 = mpsc::Sender::clone(&tx);
+    thread::spawn(move || {
+      tx1
+        .send(RxType::OutputFileName(self2.get_output_filename()))
+        .unwrap();
+    })
+  }
+
+  fn check_gba_file_valid_to_apply_patch(self: &Arc<NupsCli>, ups: &Ups, gba_file: &[u8]) {
+    match ups.is_file_valid_to_apply(gba_file) {
+      Ok(_) => {}
+      Err(err) => panic!("{}", err),
+    };
+  }
+
+  fn patch_gba_file(self: &Arc<NupsCli>, ups: &Ups, gba_file: &[u8], output_pathbuf: &PathBuf) {
+    let patched_gba_file = ups.apply_patch(gba_file);
+    match self.output(&patched_gba_file, output_pathbuf) {
+      Ok(_) => {}
+      Err(err) => panic!("{}", err),
+    };
   }
 
   fn read_patch_check_valid_patch(&self) -> Result<(), anyhow::Error> {
