@@ -64,34 +64,8 @@ impl Ups {
     let end_of_file_crc_bytes: u32 = 12;
     let end_ptr = ups_file.len() as u32 - end_of_file_crc_bytes;
 
-    while self.current_ptr_ + 1 < end_ptr {
-      file_position += self.decrypt(ups_file);
-      self.changed_offset_list_.push(file_position as u32);
-      let mut new_xor_data = Vec::<u8>::new();
-
-      while ups_file[self.current_ptr_ as usize] != 0 {
-        new_xor_data.push(ups_file[self.current_ptr_ as usize]);
-        self.current_ptr_ += 1;
-      }
-
-      let new_xor_len = new_xor_data.len();
-      self.xor_bytes_list_.push(new_xor_data);
-      file_position += (new_xor_len as u32) + 1;
-      self.current_ptr_ += 1;
-    }
-
-    self.set_ups_crc32(ups_file);
-
-    let binary_byte_vector = self.to_binary();
-    let calculated_crc32 = self.crc32_.crc32_calculate(&binary_byte_vector);
-
-    self.valid_patch_ = calculated_crc32 == self.crc32_struct_.patch;
-
-    println!("FINISHED: Checking if patch is valid.");
-    match self.valid_patch_ {
-      true => Ok(()),
-      false => Err(anyhow::anyhow!("Patch was not valid")),
-    }
+    self.set_changed_offsets_and_xor_bytes(ups_file, &mut file_position, &end_ptr);
+    self.check_valid_base_on_crc32(ups_file)
   }
 
   pub fn is_file_valid_to_apply(&self, gba_file: &[u8]) -> Result<(), anyhow::Error> {
@@ -214,5 +188,40 @@ impl Ups {
     ));
 
     byte_vector
+  }
+
+  fn set_changed_offsets_and_xor_bytes(
+    &mut self,
+    ups_file: &[u8],
+    file_position: &mut u32,
+    end_ptr: &u32,
+  ) {
+    while self.current_ptr_ + 1 < *end_ptr {
+      *file_position += self.decrypt(ups_file);
+      self.changed_offset_list_.push(*file_position as u32);
+      let mut new_xor_data = Vec::<u8>::new();
+
+      while ups_file[self.current_ptr_ as usize] != 0 {
+        new_xor_data.push(ups_file[self.current_ptr_ as usize]);
+        self.current_ptr_ += 1;
+      }
+
+      let new_xor_len = new_xor_data.len();
+      self.xor_bytes_list_.push(new_xor_data);
+      *file_position += (new_xor_len as u32) + 1;
+      self.current_ptr_ += 1;
+    }
+  }
+
+  fn check_valid_base_on_crc32(&mut self, ups_file: &[u8]) -> Result<(), anyhow::Error> {
+    self.set_ups_crc32(ups_file);
+    let binary_byte_vector = self.to_binary();
+    let calculated_crc32 = self.crc32_.crc32_calculate(&binary_byte_vector);
+    self.valid_patch_ = calculated_crc32 == self.crc32_struct_.patch;
+    println!("FINISHED: Checking if patch is valid.");
+    match self.valid_patch_ {
+      true => Ok(()),
+      false => Err(anyhow::anyhow!("Patch was not valid")),
+    }
   }
 }
