@@ -14,6 +14,7 @@ pub struct Ups {
   current_ptr_: u32,
   crc32_struct_: Crc32Nums,
   crc32_: Crc32,
+  ups_file_: Vec<u8>,
 }
 
 #[derive(Debug)]
@@ -38,33 +39,22 @@ impl Ups {
         patch: 0,
       },
       crc32_: crc32,
+      ups_file_: Vec::<u8>::new(),
     }
   }
 
   pub fn is_valid_patch(&mut self, ups_file: &[u8]) -> Result<(), anyhow::Error> {
     println!("Checking if patch is valid.");
+    self.ups_file_ = Vec::from(ups_file);
     self.changed_offset_list_.clear();
     self.xor_bytes_list_.clear();
 
-    let mut header = String::from("");
+    self.check_header()?;
 
-    while self.current_ptr_ < 4 {
-      header.push(ups_file[self.current_ptr_ as usize] as char);
-      self.current_ptr_ += 1;
-    }
+    self.old_file_size_ = self.decrypt();
+    self.new_file_size_ = self.decrypt();
 
-    if header != "UPS1" {
-      return Err(anyhow::anyhow!("ERROR: Header is not 'UPS1'"));
-    }
-
-    self.old_file_size_ = self.decrypt(ups_file);
-    self.new_file_size_ = self.decrypt(ups_file);
-
-    let mut file_position: u32 = 0;
-    let end_of_file_crc_bytes: u32 = 12;
-    let end_ptr = ups_file.len() as u32 - end_of_file_crc_bytes;
-
-    self.set_changed_offsets_and_xor_bytes(ups_file, &mut file_position, &end_ptr);
+    self.set_changed_offsets_and_xor_bytes();
     self.check_valid_base_on_crc32(ups_file)
   }
 
@@ -108,17 +98,17 @@ impl Ups {
   // | PRIVATE FUNCTIONS
   // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-  fn decrypt(&mut self, ups_file: &[u8]) -> u32 {
+  fn decrypt(&mut self) -> u32 {
     let mut value: u32 = 0;
     let mut shift: u32 = 1;
-    let mut x = ups_file[self.current_ptr_ as usize];
+    let mut x = self.ups_file_[self.current_ptr_ as usize];
     self.current_ptr_ += 1;
     value += (x & 0x7F) as u32 * shift;
 
     while (x & 0x80) == 0 {
       shift <<= 7;
       value += shift as u32;
-      x = ups_file[self.current_ptr_ as usize];
+      x = self.ups_file_[self.current_ptr_ as usize];
       self.current_ptr_ += 1;
       value += (x & 0x7F) as u32 * shift;
     }
@@ -190,27 +180,46 @@ impl Ups {
     byte_vector
   }
 
-  fn set_changed_offsets_and_xor_bytes(
-    &mut self,
-    ups_file: &[u8],
-    file_position: &mut u32,
-    end_ptr: &u32,
-  ) {
-    while self.current_ptr_ + 1 < *end_ptr {
-      *file_position += self.decrypt(ups_file);
-      self.changed_offset_list_.push(*file_position as u32);
-      let mut new_xor_data = Vec::<u8>::new();
+  fn check_header(&mut self) -> Result<(), anyhow::Error> {
+    let mut header = String::from("");
 
-      while ups_file[self.current_ptr_ as usize] != 0 {
-        new_xor_data.push(ups_file[self.current_ptr_ as usize]);
-        self.current_ptr_ += 1;
-      }
-
-      let new_xor_len = new_xor_data.len();
-      self.xor_bytes_list_.push(new_xor_data);
-      *file_position += (new_xor_len as u32) + 1;
+    while self.current_ptr_ < 4 {
+      header.push(self.ups_file_[self.current_ptr_ as usize] as char);
       self.current_ptr_ += 1;
     }
+
+    if header != "UPS1" {
+      Err(anyhow::anyhow!("ERROR: Header is not 'UPS1'"))
+    } else {
+      Ok(())
+    }
+  }
+
+  fn set_changed_offsets_and_xor_bytes(&mut self) {
+    let mut file_position: u32 = 0;
+    let end_of_file_crc_bytes: u32 = 12;
+    let end_ptr = self.ups_file_.len() as u32 - end_of_file_crc_bytes;
+
+    while self.current_ptr_ + 1 < end_ptr {
+      file_position += self.decrypt();
+      self.changed_offset_list_.push(file_position as u32);
+
+      let new_xor_data = self.get_new_xor_data();
+      let new_xor_len = new_xor_data.len();
+      self.xor_bytes_list_.push(new_xor_data);
+      file_position += (new_xor_len as u32) + 1;
+
+      self.current_ptr_ += 1;
+    }
+  }
+
+  fn get_new_xor_data(&mut self) -> Vec<u8> {
+    let mut new_xor_data = Vec::<u8>::new();
+    while self.ups_file_[self.current_ptr_ as usize] != 0 {
+      new_xor_data.push(self.ups_file_[self.current_ptr_ as usize]);
+      self.current_ptr_ += 1;
+    }
+    new_xor_data
   }
 
   fn check_valid_base_on_crc32(&mut self, ups_file: &[u8]) -> Result<(), anyhow::Error> {
