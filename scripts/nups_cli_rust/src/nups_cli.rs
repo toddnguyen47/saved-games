@@ -1,9 +1,13 @@
 use anyhow;
-use std::io::{Read, Write};
 use std::path::Path;
 use std::sync::{mpsc, Arc, Mutex};
 use std::thread;
+use std::thread::JoinHandle;
 use std::{fs::File, path::PathBuf};
+use std::{
+  io::{Read, Write},
+  sync::mpsc::Receiver,
+};
 
 use crate::ups::Ups;
 
@@ -13,6 +17,11 @@ pub struct NupsCli {
   ups_file_path_: String,
   full_output_path_: Option<String>,
   ups_mutex_: Arc<Mutex<Ups>>,
+}
+
+enum RxType {
+  Gba(Vec<u8>),
+  OutputFileName(PathBuf),
 }
 
 impl NupsCli {
@@ -32,30 +41,27 @@ impl NupsCli {
 
   /// Start to patch our clean ROM!
   /// Ref: https://stackoverflow.com/a/25463033
-  pub fn execute(self: Arc<NupsCli>) {
+  pub fn execute(self: &Arc<NupsCli>) {
     let mut handles = Vec::<thread::JoinHandle<()>>::new();
-    let self2 = Arc::clone(&self);
-    let handle = thread::spawn(move || {
-      self2
-        .read_patch_check_valid_patch()
-        .expect(&(format!("\nInvalid UPS File: '{}'\n", self2.ups_file_path_)));
-    });
-    handles.push(handle);
+    handles.push(self.get_handle_check_valid_patch());
 
+    let (tx, rx) = mpsc::channel::<RxType>();
     let self2 = Arc::clone(&self);
-    let (tx, rx) = mpsc::channel();
+    let tx1 = mpsc::Sender::clone(&tx);
     let handle = thread::spawn(move || {
       let gba_file = self2
         .read_gba_file()
         .expect(&(format!("\nInvalid GBA File: '{}'\n", self2.gba_file_path_)));
-      tx.send(gba_file).unwrap();
+      tx1.send(RxType::Gba(gba_file)).unwrap();
     });
     handles.push(handle);
 
-    let (tx_filename, rx_filename) = mpsc::channel::<PathBuf>();
     let self2 = Arc::clone(&self);
+    let tx1 = mpsc::Sender::clone(&tx);
     let handle = thread::spawn(move || {
-      tx_filename.send(self2.set_output_filename()).unwrap();
+      tx1
+        .send(RxType::OutputFileName(self2.get_output_filename()))
+        .unwrap();
     });
     handles.push(handle);
 
@@ -63,15 +69,15 @@ impl NupsCli {
       handle.join().unwrap();
     }
 
-    let gba_file = rx.recv().unwrap();
+    let (gba_file, output_pathbuf) = self.parse_mpsc_msg(&rx);
+
     let ups = self.ups_mutex_.lock().unwrap();
     match ups.is_file_valid_to_apply(&gba_file) {
       Ok(_) => {}
       Err(err) => panic!("{}", err),
-    }
+    };
 
     let patched_gba_file = ups.apply_patch(&gba_file);
-    let output_pathbuf = rx_filename.recv().unwrap();
     match self.output(&patched_gba_file, &output_pathbuf) {
       Ok(_) => {}
       Err(err) => panic!("{}", err),
@@ -81,6 +87,16 @@ impl NupsCli {
   // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   // | PRIVATE FUNCTIONS
   // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+  fn get_handle_check_valid_patch(self: &Arc<NupsCli>) -> JoinHandle<()> {
+    let self2 = Arc::clone(&self);
+    let handle = thread::spawn(move || {
+      self2
+        .read_patch_check_valid_patch()
+        .expect(&(format!("\nInvalid UPS File: '{}'\n", self2.ups_file_path_)));
+    });
+    handle
+  }
+
   fn read_patch_check_valid_patch(&self) -> Result<(), anyhow::Error> {
     let mut ups_file = File::open(&self.ups_file_path_)?;
     let mut buffer = Vec::<u8>::new();
@@ -95,6 +111,19 @@ impl NupsCli {
     }
 
     Ok(())
+  }
+
+  fn parse_mpsc_msg(&self, rx: &Receiver<RxType>) -> (Vec<u8>, PathBuf) {
+    let mut output_pathbuf = PathBuf::new();
+    let mut gba_file = Vec::<u8>::new();
+    // We use `try_iter()` instead of `iter()` as all the messages should have been sent already.
+    for msg in rx.try_iter() {
+      match msg {
+        RxType::Gba(file) => gba_file = file.to_vec(),
+        RxType::OutputFileName(output_path) => output_pathbuf = output_path.to_path_buf(),
+      }
+    }
+    (gba_file, output_pathbuf)
   }
 
   fn read_gba_file(&self) -> Result<Vec<u8>, anyhow::Error> {
@@ -117,7 +146,7 @@ impl NupsCli {
     Ok(())
   }
 
-  fn set_output_filename(&self) -> PathBuf {
+  fn get_output_filename(&self) -> PathBuf {
     let path = Path::new(&self.gba_file_path_);
     let parent = path.parent().unwrap();
     let mut filename = String::from(path.file_stem().unwrap().to_str().unwrap());
