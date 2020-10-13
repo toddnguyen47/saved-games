@@ -2,6 +2,7 @@
 *
 
 # Except .sav files
+!ChangeList.md
 !backup/
 !.gitignore
 !.gitattributes

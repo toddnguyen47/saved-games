@@ -42,8 +42,11 @@ impl NupsCli {
   pub fn execute(self: &Arc<NupsCli>) {
     let (tx, rx) = mpsc::channel::<RxType>();
     self.check_validity(&tx);
+    // Drop the sender channel. We're done now!
+    // Ref: https://doc.rust-lang.org/std/sync/mpsc/index.html, under `Propagating Panics`
+    drop(tx);
 
-    let (gba_file, output_pathbuf) = self.parse_mpsc_msg(&rx);
+    let (gba_file, output_pathbuf) = self.parse_mpsc_msg_blocking(&rx);
     let ups = self.ups_mutex_.lock().unwrap();
     self.check_gba_file_valid_to_apply_patch(&ups, &gba_file);
     self.patch_gba_file(&ups, &gba_file, &output_pathbuf);
@@ -123,11 +126,13 @@ impl NupsCli {
     Ok(())
   }
 
-  fn parse_mpsc_msg(&self, rx: &Receiver<RxType>) -> (Vec<u8>, PathBuf) {
+  /// Parse the MPSC Message. This function will block on a `recv()`.
+  /// This function must be called after the Sender channel has been dropped,
+  /// otherwise it will loop continously.
+  fn parse_mpsc_msg_blocking(&self, rx: &Receiver<RxType>) -> (Vec<u8>, PathBuf) {
     let mut output_pathbuf = PathBuf::new();
     let mut gba_file = Vec::<u8>::new();
-    // We use `try_iter()` instead of `iter()` as all the messages should have been sent already.
-    for msg in rx.try_iter() {
+    for msg in rx.iter() {
       match msg {
         RxType::Gba(file) => gba_file = file.to_vec(),
         RxType::OutputFileName(output_path) => output_pathbuf = output_path.to_path_buf(),
