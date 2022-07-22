@@ -19,14 +19,24 @@ so I'll do my best to readjust them here. Note that this is my personal opinion.
 ## Characters
 
 |          Lyn |   LV |   HP |  STR |  SKL |  SPD |  DEF |  RES |  LUK |
-| -----------: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| ----------: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 |   Base Stats |    3 |    6 |    2 |   10 |   11 |    2 |    1 |    6 |
 | Growth Rates |      |   70 |   40 |   60 |   60 |   20 |   30 |   55 |
 
 - Similar base stats and same growth rates as Fire Emblem 7
+- Can promote with Orion's Bolt
+
+|       Kumoko |   LV |   HP |  STR |  SKL |  SPD |  DEF |  RES |  LUK |
+| ----------: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+|   Base Stats |    2 |    0 |    0 |    0 |    0 |    0 |    1 |    3 |
+| Growth Rates |      |   55 |   40 |   55 |   60 |   25 |   25 |   45 |
+
+- A Mauthe Dogg just for fun. Has reduced Nino's (FE7) growth rates LOL
+- Has innate +15 crit. Kumoko only
+- Can promote with Orion's Bolt
 
 |        Karla |   LV |   HP |  STR |  SKL |  SPD |  DEF |  RES |  LUK |
-| -----------: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| ----------: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 |   Base Stats |    4 |    3 |    3 |    2 |    1 |    2 |    0 |    5 |
 | Growth Rates |      |   85 |   55 |   40 |   45 |   30 |   15 |   35 |
 
