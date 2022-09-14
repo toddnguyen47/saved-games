@@ -1,7 +1,7 @@
 """Usage:
-python3 base64_custom.py encode <inputFile> <outputFile>
+python3 base64_python.py encode <inputFile> <outputFile>
 
-python3 base64_custom.py decode <inputFile> <outputFile>
+python3 base64_python.py decode <inputFile> <outputFile>
 """
 
 import base64
