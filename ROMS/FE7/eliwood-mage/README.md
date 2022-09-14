@@ -18,6 +18,26 @@ Promoted:
 * When promoted, he will gain D rank to Light and D rank in Staves.
 * Essentially, Eliwood will be able to use all 3 magic types + staves.
 
+**Wil**
+* I feel bad for archers. Let's face it, they suck. Adding some base stats so hopefully archers can be more relevant.
+
+|                 |                  |
+| --------------- | ---------------- |
+| HP: 2 &rarr; 3  | DEF: N/A         |
+| POW: 2 &rarr; 3 | RES: N/A         |
+| SKL: 2 &rarr; 4 | LUK: N/A         |
+| SPD: 2 &rarr; 4 | CON: -1 &rarr; 1 |
+
+**Rebecca**
+* I feel bad for archers. Let's face it, they suck. Adding some base stats so hopefully archers can be more relevant.
+
+|                 |                 |
+| --------------- | --------------- |
+| HP: 0 &rarr; 1  | DEF: N/A        |
+| POW: 1 &rarr; 2 | RES: N/A        |
+| SKL: 2 &rarr; 4 | LUK: N/A        |
+| SPD: 2 &rarr; 4 | CON: 0 &rarr; 1 |
+
 ---
 
 ## Item Changes
@@ -32,7 +52,12 @@ Promoted:
 
 **ThunderStf**
 * New item! It is an unlimited usage of a weapon (it's a tome, but it won't give any experience)
-* POW 2 / HIT 90 / WT 2 / CRIT 0 / RANGE 1-2
+* USES UNLIMITED / POW 2 / HIT 90 / WT 2 / CRIT 0 / RANGE 1-2
+
+**Wind Dagger**
+* New item! Sword's equivalent of Javelin / Hand Axe. Can be used as a range weapon
+* USES 20 / POW 4 / HIT 75 / WT 7 / CRIT 0 / RANGE 1-2
+* Will be sold in shops that sell Javelins and Hand Axes
 
 ### Durability Increase
 
@@ -95,4 +120,7 @@ Increase durability of E rank weapons so you have to buy them less.
 * Dark Dulam: Arch
 * Dark Swarm: Blazer, Jubby
 * Anima Ragnarok: Arch
+* Shaver: Mikey Seregon; [Video](https://www.youtube.com/watch?v=OzMaR6UfRCM&feature=youtu.be), [Download](https://www.dropbox.com/s/1vp63rp1xkp6mud/Shaver%20FEDS%20%28Mikey%20Seregon%29.zip?dl=0)
 * Weapon / Tome icons: WhydidImakethisaccount
+* Weapon / Tome icons: {Seal} Sacred War Collection (216)
+  * Sword_2
